@@ -8,12 +8,11 @@
   "scripts": {
     "setup": "npm install",
     "build": "npm run install:auth-service && npm run install:cemetery-service && npm run build:auth-service && npm run build:cemetery-service",
-    "start": "npm run start:debug --prefix auth-service & npm run start:debug --prefix cemetery-service",
-    "install:auth-service": "npm install --prefix auth-service",
+    "start": "npm run start:debug --prefix auth-service && npm run start:debug --prefix cemetery-service",
     "install:cemetery-service": "npm install --prefix cemetery-service",
     "build:auth-service": "npm run build --prefix auth-service",
     "build:cemetery-service": "npm run build --prefix cemetery-service",
-    "start:debug": "npx nest start --debug --watch"
+    "start:debug": "npx nest start --debug"
   },
   "devDependencies": {
     "concurrently": "^7.6.0"
