@@ -6,7 +6,7 @@ import { AuthSession } from '../model/auth-session.entity';
 import { PrincipalUser } from '../model/principal-user.dto';
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
-
+import * as path from 'path'; // Ensure path is correctly imported
 // Load environment variables from the .env file
 dotenv.config();
 
@@ -14,13 +14,25 @@ dotenv.config();
 export class AuthService {
   private readonly logger = new Logger(AuthService.name); 
   
-  constructor(
+   // Dynamically load RSA private key from the environment variable path
+   private privateKey: string;
+
+   constructor(
     @InjectRepository(AuthSession)
     private authSessionRepository: Repository<AuthSession>,
-  ) {}
+  ) {
+    const privateKeyPath =  '../../keys/private.pem'; // Default path if not set
+    try {
+      this.privateKey = fs.readFileSync(path.resolve(privateKeyPath), 'utf8');
+      this.logger.log('Private key loaded successfully.');
+    } catch (error) {
+      this.logger.error('Error loading private key:', error);
+    }
+  }
+
 
    // Load RSA private key from environment variable path
-  private privateKey = fs.readFileSync('../../keys/private.pem', 'utf8');
+
 
 
 
