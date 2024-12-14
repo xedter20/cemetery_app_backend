@@ -5,7 +5,7 @@ import { RegisterService } from './service/register.service';
 import { HttpModule } from '@nestjs/axios';
 import { JwtModule } from '@nestjs/jwt';
 import * as fs from 'fs';
-
+import * as path from 'path'; // Ensure path is correctly imported
 import { User } from './model/user.entity';
 import { Permission } from './model/permission.entity';
 import { Deceased } from './model/deceased.entity';
@@ -47,8 +47,7 @@ import { AdminInsertService } from './service/admin-insert.service';
     // }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database:
-        'C:/Users/machr/CEMETERY/cemetery-be/cemetery-db-lite/data/testdb', // Path to H2 database
+      database: 'C:/DexDev/sqlite/data/testdb', // Path to H2 database
       synchronize: true, // Automatically sync schema to database
       logging: true, // Enable logging for troubleshooting
       entities: [User, Permission, Deceased, Payment, ActyLog], // Register the AuthSession entity
@@ -60,18 +59,29 @@ import { AdminInsertService } from './service/admin-insert.service';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        privateKey: fs.readFileSync(
-          configService.get<string>('PRIVATE_KEY_PATH'),
-          'utf8',
-        ),
-        publicKey: fs.readFileSync(
-          configService.get<string>('PUBLIC_KEY_PATH'),
-          'utf8',
-        ),
-        signOptions: { algorithm: 'RS256', expiresIn: '1h' },
-        verifyOptions: { algorithms: ['RS256'] },
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const privateKeyPath = './../keys/private.pem'; // Default path if not set
+        const publicKeyPath = './../keys/public.pem'; // Default path if not set
+
+        let privateKey: string;
+        let publicKey: string;
+
+        try {
+          privateKey = fs.readFileSync(path.resolve(privateKeyPath), 'utf8');
+          publicKey = fs.readFileSync(path.resolve(publicKeyPath), 'utf8');
+          console.log('Private key and public key loaded successfully.');
+        } catch (error) {
+          console.error('Error loading keys:', error);
+          throw new Error('Failed to load private/public keys');
+        }
+
+        return {
+          privateKey,
+          publicKey,
+          signOptions: { algorithm: 'RS256', expiresIn: '1h' },
+          verifyOptions: { algorithms: ['RS256'] },
+        };
+      },
     }),
   ],
 
