@@ -1,0 +1,1380 @@
+openapi: 3.0.0
+paths:
+  /admin/test:
+    get:
+      operationId: AdminController_test
+      summary: Test API endpoint
+      parameters: []
+      responses:
+        '200':
+          description: Returns Hello world.
+      tags:
+        - Admin
+  /admin/login:
+    post:
+      operationId: AdminController_login
+      summary: Login and get JWT token
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+      responses:
+        '200':
+          description: Returns a token response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+      tags:
+        - Admin
+  /admin/permissions:
+    get:
+      operationId: AdminController_getPermissions
+      summary: Get permissions for the logged-in user
+      parameters: []
+      responses:
+        '200':
+          description: Returns permissions for the user.
+      tags:
+        - Admin
+  /admin/user:
+    get:
+      operationId: AdminController_searchUsers
+      summary: Search users across all account types (treasurer, enterprise, guest)
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: Page number for pagination
+          schema:
+            example: 1
+            type: number
+        - name: limit
+          required: false
+          in: query
+          description: Limit number of users per page
+          schema:
+            example: 10
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Admin
+  /admin/treasurer:
+    get:
+      operationId: AdminController_getPartialTreasurers
+      summary: Get partial list of treasurers
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: Page number for pagination
+          schema:
+            type: number
+        - name: limit
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Admin
+  /admin/treasurer/{id}:
+    get:
+      operationId: AdminController_getTreasurerById
+      summary: Get treasurer by ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID of the treasurer
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Admin
+    patch:
+      operationId: AdminController_updateTreasurerById
+      summary: Update treasurer by ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Admin
+  /admin/treasurer/{id}/delete:
+    patch:
+      operationId: AdminController_deleteTreasurerById
+      summary: Delete treasurer by ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Admin
+  /admin/enterprise:
+    get:
+      operationId: AdminController_getPartialEnterprises
+      summary: Get partial list of enterprises
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: limit
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Admin
+  /admin/enterprise/{id}:
+    get:
+      operationId: AdminController_getEnterpriseById
+      summary: Get enterprise by ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Admin
+    patch:
+      operationId: AdminController_updateEnterpriseById
+      summary: Update enterprise by ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Admin
+  /admin/enterprise/{id}/delete:
+    patch:
+      operationId: AdminController_deleteEnterpriseById
+      summary: Delete enterprise by ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Admin
+  /admin/guest:
+    get:
+      operationId: AdminController_getPartialGuests
+      summary: Get partial list of guests
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Admin
+  /admin/guest/{id}:
+    get:
+      operationId: AdminController_getGuestById
+      summary: Get guest by ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Admin
+    patch:
+      operationId: AdminController_updateGuestById
+      summary: Update guest by ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Admin
+  /admin/guest/{id}/delete:
+    patch:
+      operationId: AdminController_deleteGuestById
+      summary: Delete guest by ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Admin
+  /admin/deceased:
+    post:
+      operationId: AdminController_createDeceased
+      summary: Create a deceased profile
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeceasedDto'
+      responses:
+        '200':
+          description: Deceased profile created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeceasedResponse'
+      tags:
+        - Admin
+    get:
+      operationId: AdminController_searchDeceased
+      summary: Search deceased profiles with pagination
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: Page number for pagination
+          schema:
+            example: 1
+            type: number
+        - name: limit
+          required: false
+          in: query
+          description: Number of profiles per page
+          schema:
+            example: 10
+            type: number
+        - name: filters
+          required: true
+          in: query
+          description: Search filters for deceased profiles
+          schema: {}
+      responses:
+        '200':
+          description: Returns matching deceased profiles.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeceasedList'
+      tags:
+        - Admin
+  /admin/deceased/{deceasedId}:
+    get:
+      operationId: AdminController_getDeceasedByDeceasedId
+      summary: Get a deceased profile
+      parameters:
+        - name: deceasedId
+          required: true
+          in: path
+          description: ID of the deceased profile
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deceased profile updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeceasedResponse'
+      tags:
+        - Admin
+    patch:
+      operationId: AdminController_updateDeceased
+      summary: Update a deceased profile
+      parameters:
+        - name: deceasedId
+          required: true
+          in: path
+          description: ID of the deceased profile
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeceasedDto'
+      responses:
+        '200':
+          description: Deceased profile updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeceasedResponse'
+      tags:
+        - Admin
+  /admin/deceased/{deceasedId}/delete:
+    patch:
+      operationId: AdminController_deleteDeceased
+      summary: Mark a deceased profile as deleted
+      parameters:
+        - name: deceasedId
+          required: true
+          in: path
+          description: ID of the deceased profile
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deceased profile marked as deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeceasedResponse'
+      tags:
+        - Admin
+  /admin/payment/{deceasedId}:
+    post:
+      operationId: AdminController_addPayment
+      summary: Add a new rental payment
+      parameters:
+        - name: deceasedId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentDto'
+      responses:
+        '201':
+          description: Payment added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponseDto'
+      tags:
+        - Admin
+    get:
+      operationId: AdminController_getPaymentById
+      summary: Add a new rental payment
+      parameters:
+        - name: deceasedId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Payment added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponseDto'
+      tags:
+        - Admin
+  /admin/payment:
+    get:
+      operationId: AdminController_getAllPayments
+      summary: Get all payment
+      parameters:
+        - name: deceasedName
+          required: false
+          in: query
+          description: Optional filter by deceased name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns payment based on search criteria.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PaymentDto'
+      tags:
+        - Admin
+  /admin/payment/{deceasedId}/{orderNo}:
+    get:
+      operationId: AdminController_getPaymentByOrderNo
+      summary: Get a payment by order number
+      parameters:
+        - name: orderNo
+          required: true
+          in: path
+          description: Order number of the payment
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns payment details for the given order number.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentDto'
+      tags:
+        - Admin
+    patch:
+      operationId: AdminController_updatePaymentByOrderNo
+      summary: Update a payment by order number
+      parameters:
+        - name: orderNo
+          required: true
+          in: path
+          description: Order number of the payment
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentDto'
+      responses:
+        '200':
+          description: Payment updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponseDto'
+      tags:
+        - Admin
+  /admin/payment/{deceasedId}/{orderNo}/delete:
+    patch:
+      operationId: AdminController_deletePayment
+      summary: Mark a payment as deleted by order number
+      parameters:
+        - name: orderNo
+          required: true
+          in: path
+          description: Order number of the payment
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payment marked as deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponseDto'
+      tags:
+        - Admin
+  /admin/report:
+    get:
+      operationId: AdminController_getReport
+      summary: Generate a payment history report
+      parameters:
+        - name: year
+          required: false
+          in: query
+          description: Year for the report
+          schema:
+            type: string
+        - name: period
+          required: false
+          in: query
+          description: Period for the report
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Report generated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportPaymentDto'
+      tags:
+        - Admin
+  /admin/report/download:
+    get:
+      operationId: AdminController_downloadReport
+      summary: Download a payment history report as Excel
+      parameters:
+        - name: year
+          required: false
+          in: query
+          description: Year for the report
+          schema:
+            type: string
+        - name: period
+          required: false
+          in: query
+          description: Period for the report
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Report downloaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/'
+      tags:
+        - Admin
+  /admin/notifications:
+    get:
+      operationId: AdminController_getNotifications
+      summary: Get list of notifications with pagination
+      parameters:
+        - name: limit
+          required: false
+          in: query
+          description: Number of notifications per page
+          schema:
+            example: 10
+        - name: page
+          required: false
+          in: query
+          description: Page number for pagination
+          schema:
+            example: 1
+      responses:
+        '200':
+          description: Returns notifications.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationResponseDto'
+      tags:
+        - Admin
+  /admin/logs:
+    get:
+      operationId: AdminController_getActivityLogs
+      summary: Get all activity logs with pagination
+      parameters: []
+      responses:
+        '200':
+          description: Returns activity logs.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityLogResponseDto'
+      tags:
+        - Admin
+  /register/admin:
+    post:
+      operationId: RegisterController_registerAdmin
+      summary: Register the user e.g., admin, treasurer, guest
+      parameters:
+        - name: account-type
+          required: true
+          in: header
+          description: Type of account to register (e.g., admin, treasurer, guest)
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: The user details for registration
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserDto'
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Invalid account type or request data
+      tags:
+        - Register
+  /register/client:
+    post:
+      operationId: RegisterController_registerClient
+      summary: Register a client guest user only
+      parameters:
+        - name: account-type
+          required: true
+          in: header
+          description: Type of account to register (guest only)
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: The user details for registration
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserDto'
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Invalid account type or request data
+      tags:
+        - Register
+  /register/admin/unregister/{email}:
+    patch:
+      operationId: RegisterController_unregisterUser
+      summary: Unregister a user by setting status to 99 and adding a reason
+      parameters:
+        - name: email
+          required: true
+          in: path
+          description: Email of the user to unregister
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: The reason for unregistering
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Unregister'
+      responses:
+        '200':
+          description: User unregistered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnregisterResponse'
+        '417':
+          description: User not found
+      tags:
+        - Register
+  /guest/login:
+    post:
+      operationId: GuestController_login
+      summary: Login and get JWT token
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+      responses:
+        '200':
+          description: Returns a token response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+      tags:
+        - Guest
+  /guest/permissions:
+    get:
+      operationId: GuestController_getPermissions
+      summary: Get permissions for the logged-in guest
+      parameters: []
+      responses:
+        '200':
+          description: Returns permissions for the user.
+      tags:
+        - Guest
+  /guest/search:
+    get:
+      operationId: GuestController_searchGuest
+      summary: Search for a deceased profile by full name
+      parameters:
+        - name: fullname
+          required: true
+          in: query
+          description: Full name of the deceased
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deceased found successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeceasedResponse'
+        '417':
+          description: Decdireased not found.
+      tags:
+        - Guest
+
+info:
+  title: Cemetery Management And Guest Mapping API
+  description: API documentation for the Cemetery Service
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    DeviceDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Device type
+          example: mobile
+          maxLength: 40
+        browser:
+          type: string
+          description: Browser used on the device
+          example: Chrome
+          maxLength: 40
+        uuid:
+          type: string
+          description: Unique device identifier
+          example: 123e4567-e89b-12d3-a456-426614174000
+          maxLength: 40
+        name:
+          type: string
+          description: Device name
+          example: iPhone 12
+          maxLength: 40
+      required:
+        - type
+        - browser
+        - uuid
+        - name
+    LoginDto:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: User ID
+          example: user123
+          maxLength: 40
+        email:
+          type: string
+          description: User email address
+          example: user@example.com
+          maxLength: 40
+        password:
+          type: string
+          description: User password
+          example: password123
+          maxLength: 40
+        device:
+          description: Device information
+          allOf:
+            - $ref: '#/components/schemas/DeviceDto'
+        location:
+          type: string
+          description: Location
+          example: New York
+          maxLength: 40
+      required:
+        - email
+        - password
+        - device
+        - location
+    User:
+      type: object
+      properties: {}
+    TokenResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Status code of the response
+          example: 200
+        token:
+          type: string
+          description: Generated authentication token
+          example: eyJhbGciOiJIUzI1NiIsInR5...
+        expiresIn:
+          type: string
+          description: Expiration time for the token
+          example: '900'
+        permissions:
+          type: object
+          description: User permissions object
+          example: '{}'
+        user:
+          description: User details object
+          allOf:
+            - $ref: '#/components/schemas/User'
+      required:
+        - statusCode
+        - token
+        - expiresIn
+        - permissions
+        - user
+    DeceasedDto:
+      type: object
+      properties:
+        deceasedId:
+          type: string
+          description: Unique ID of the deceased
+          example: d12345
+        labelName:
+          type: string
+          description: Label name
+          example: Mr. John Doe
+        lastName:
+          type: string
+          description: Last name
+          example: Doe
+        firstName:
+          type: string
+          description: First name
+          example: John
+        middleName:
+          type: string
+          description: Middle name
+          example: A.
+        suffix:
+          type: string
+          description: Suffix (e.g., Jr, Sr)
+          example: Jr
+        address:
+          type: string
+          description: Address
+          example: 123 Main St, Anytown
+        born:
+          type: string
+          description: Date of birth
+          example: '1970-01-01'
+        died:
+          type: string
+          description: Date of death
+          example: '2022-01-01'
+        cemeteryLocation:
+          type: string
+          description: Cemetery location
+          example: Plot A, Row 3
+        datePermit:
+          type: string
+          description: Permit date
+          example: '2022-01-15'
+        natureApp:
+          type: string
+          description: Nature of application
+          example: Burial permit
+        layerNiche:
+          type: string
+          description: Layer or niche
+          example: Niche 12
+        layerAddress:
+          type: string
+          description: Layer or niche
+          example: B1P2
+        payeeLastName:
+          type: string
+          description: Payee last name
+          example: Doe
+        payeeFirstName:
+          type: string
+          description: Payee first name
+          example: John
+        payeeMiddleName:
+          type: string
+          description: Payee middle name
+          example: A.
+        payeeSuffix:
+          type: string
+          description: Payee suffix
+          example: Jr
+        payeeContact:
+          type: string
+          description: Payee contact
+          example: 123-456-7890
+        payeeEmail:
+          type: string
+          description: Payee email
+          example: johndoe@example.com
+        payeeAddress:
+          type: string
+          description: Payee address
+          example: 456 Second St, Anytown
+        option1:
+          type: string
+          description: Option 1
+          example: Option 1 details
+        option2:
+          type: string
+          description: Option 2
+          example: Option 2 details
+        remarks:
+          type: string
+          description: Remarks
+          example: Some remarks
+        status:
+          type: number
+          description: Status of the deceased record
+          example: 1
+        canvasMap:
+          type: string
+          description: Canvas map (optional, base64 string up to 4000 characters)
+          example: base64encodedstring...
+          maxLength: 4000
+      required:
+        - deceasedId
+        - labelName
+        - lastName
+        - firstName
+        - middleName
+        - suffix
+        - address
+        - born
+        - died
+        - cemeteryLocation
+        - datePermit
+        - natureApp
+        - layerNiche
+        - layerAddress
+        - payeeLastName
+        - payeeFirstName
+        - payeeMiddleName
+        - payeeSuffix
+        - payeeContact
+        - payeeEmail
+        - payeeAddress
+        - option1
+        - option2
+        - remarks
+        - status
+        - canvasMap
+    Deceased:
+      type: object
+      properties: {}
+    DeceasedResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: The status code of the response
+          example: 200
+        message:
+          type: string
+          description: The message indicating the result of the operation
+          example: Deceased record created successfully
+        deceased_id:
+          type: string
+          description: The ID of the deceased (optional)
+          example: d12345
+        deceased:
+          description: The deceased entity or null if not applicable
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/Deceased'
+      required:
+        - statusCode
+        - message
+        - deceased
+    DeceasedList:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Status code indicating the success of the request
+          example: 0
+        message:
+          type: string
+          description: Message providing additional details about the request
+          example: Successful
+        page:
+          type: number
+          description: Page Number
+          example: 1
+        pageLimit:
+          type: number
+          description: Page limit
+          example: 10
+        paginationCount:
+          type: number
+          description: Total number of pages available based on the pagination
+          example: 5
+        deceased:
+          description: List of deceased records
+          type: array
+          items:
+            $ref: '#/components/schemas/DeceasedDto'
+      required:
+        - statusCode
+        - message
+        - page
+        - pageLimit
+        - paginationCount
+        - deceased
+    PaymentDto:
+      type: object
+      properties:
+        deceasedName:
+          type: string
+          description: Full name of the deceased
+          example: John Doe
+        datePaid:
+          format: date-time
+          type: string
+          description: Date when the payment was made
+          example: '2024-10-10'
+        kindPayment:
+          type: string
+          description: Type of payment made
+          example: Rental Payment
+        permitNo:
+          type: string
+          description: Permit number associated with the payment
+          example: PN-12345
+        orderNo:
+          type: string
+          description: Order number of the payment
+          example: ORD-56789
+        amount:
+          type: number
+          description: Amount paid
+          example: 500
+        numYearsPay:
+          type: number
+          description: Number of years paid for
+          example: 2
+        nextPaymentDate:
+          format: date-time
+          type: string
+          description: Next payment due date
+          example: '2025-10-10'
+        status:
+          type: number
+          description: Status of the payment
+          example: 1
+        reason:
+          type: string
+          description: Reason for the payment
+          example: Annual subscription
+        addedBy:
+          type: string
+          description: User who added the payment
+          example: admin@company.com
+        addedDate:
+          type: string
+          description: Date when the payment was added
+          example: '2024-10-10 10:00:00'
+        modifiedBy:
+          type: string
+          description: User who last modified the payment
+          example: admin@company.com
+        modifiedDate:
+          type: string
+          description: Date when the payment was last modified
+          example: '2024-10-12 10:00:00'
+          nullable: true
+      required:
+        - deceasedName
+        - datePaid
+        - kindPayment
+        - permitNo
+        - orderNo
+        - amount
+        - numYearsPay
+        - nextPaymentDate
+        - status
+        - reason
+        - addedBy
+        - addedDate
+        - modifiedBy
+        - modifiedDate
+    PaymentResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Status code of the response
+          example: 200
+        message:
+          type: string
+          description: Message indicating the result of the request
+          example: Payments found successfully
+        payment:
+          description: Payment details (optional)
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/PaymentDto'
+        payments:
+          description: List of payments (optional)
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentDto'
+        paginationCount:
+          type: number
+          description: Pagination count for the payments list (optional)
+          example: 2
+          nullable: true
+        pageLimit:
+          type: number
+          description: Pagination limit (optional)
+          example: 10
+          nullable: true
+      required:
+        - statusCode
+        - message
+        - payment
+    ReportPaymentDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+        recordCount:
+          type: number
+        totalAmount:
+          type: number
+        paginationTotal:
+          type: number
+        currentPageRecordCount:
+          type: number
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentDto'
+      required:
+        - statusCode
+        - message
+        - recordCount
+        - totalAmount
+        - paginationTotal
+        - currentPageRecordCount
+        - payments
+    DeceasedNotificationDto:
+      type: object
+      properties:
+        deceasedName:
+          type: string
+          description: Deceased Name
+        deceasedId:
+          type: string
+          description: Deceased ID
+          example: hidden
+        amount:
+          type: number
+          description: Amount to be paid
+        email:
+          type: string
+          description: Email of the deceased contact person
+        nextPaymentDate:
+          format: date-time
+          type: string
+          description: Next payment due date
+      required:
+        - deceasedName
+        - deceasedId
+        - amount
+        - email
+        - nextPaymentDate
+    NotificationResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Status code indicating the success of the request
+          example: 200
+        message:
+          type: string
+          description: Message providing additional details about the request
+          example: Successful
+        paginationCount:
+          type: number
+          description: Total number of pages available based on the pagination
+          example: 5
+        page:
+          type: number
+          description: Current page number
+          example: 1
+        pageLimit:
+          type: number
+          description: Number of items per page
+          example: 10
+        deceased:
+          description: List of deceased records with their payment details
+          type: array
+          items:
+            $ref: '#/components/schemas/DeceasedNotificationDto'
+      required:
+        - statusCode
+        - message
+        - paginationCount
+        - page
+        - pageLimit
+        - deceased
+    ActyLog:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+          description: The unique identifier for the log entry
+        userId:
+          type: string
+          example: user123
+          description: The ID of the user who performed the action
+          maxLength: 50
+        action:
+          type: string
+          example: Login
+          description: The action performed by the user
+          maxLength: 100
+        label:
+          type: string
+          example: User Login
+          description: Optional label for the action
+          maxLength: 100
+        accountType:
+          type: string
+          example: admin
+          description: The account type of the user
+          maxLength: 50
+        createdDate:
+          type: string
+          example: '2024-10-10 12:00:00'
+          description: The date and time when the action was logged
+      required:
+        - id
+        - userId
+        - action
+        - createdDate
+    ActivityLogResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Status code of the response
+          example: 200
+        message:
+          type: string
+          description: Message indicating the result of the request
+          example: Success
+        paginationCount:
+          type: number
+          description: Number of pages for pagination
+          example: 5
+        pageLimit:
+          type: number
+          description: Number of logs per page
+          example: 10
+        logs:
+          description: List of activity logs
+          type: array
+          items:
+            $ref: '#/components/schemas/ActyLog'
+      required:
+        - statusCode
+        - message
+        - paginationCount
+        - pageLimit
+        - logs
+    CreateUserDto:
+      type: object
+      properties:
+        role:
+          type: string
+          description: User role
+          example: admin
+          maxLength: 50
+        firstName:
+          type: string
+          description: First name of the user
+          example: John
+          maxLength: 50
+        lastName:
+          type: string
+          description: Last name of the user
+          example: Doe
+          maxLength: 50
+        email:
+          type: string
+          description: 'User email address (must follow the format: example@domain.com)'
+          example: john.doe@example.com
+        password:
+          type: string
+          description: User password
+          example: strongPassword123!
+        gender:
+          type: string
+          description: User gender
+          example: male
+          maxLength: 50
+        device:
+          description: Device details
+          allOf:
+            - $ref: '#/components/schemas/DeviceDto'
+        location:
+          type: string
+          description: User location
+          example: New York
+          maxLength: 50
+      required:
+        - role
+        - firstName
+        - lastName
+        - email
+        - password
+        - gender
+        - device
+        - location
+    Unregister:
+      type: object
+      properties:
+        reason:
+          type: string
+          description: Reason for unregistering
+          example: No longer needed
+      required:
+        - reason
+    UnregisterResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 0
+          description: Status code of the operation
+        message:
+          type: string
+          example: Success
+          description: Message of the operation
+        email:
+          type: string
+          example: john.doe@example.com
+          description: Email of the unregistered user
+        dateTime:
+          type: string
+          example: '2024-10-10T15:30:00'
+          description: Date and time when the unregistration was processed
+      required:
+        - statusCode
+        - message
+        - email
+        - dateTime

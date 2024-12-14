@@ -1,0 +1,1040 @@
+{
+	"info": {
+		"_postman_id": "539336a5-1fbf-4c1d-8626-137cf8b47cde",
+		"name": "Cemetery API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29874634"
+	},
+	"item": [
+		{
+			"name": "admin-login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"admin@guimaras-cemetery.com\",\r\n  \"password\": \"Password12345678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-permission",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM3YzFkMzRhLWNiZmQtNDc0YS04ZDg1LTAxNDhkNTcyN2RlYiIsImZpcnN0bmFtZSI6Ik1hcnkgSmFuZSIsImxhc3RuYW1lIjoiRm9vIiwiZW1haWwiOiJndWVzdDAwMUBleGFtcGxlLmNvbSIsInVzZXJJZCI6Imd1ZXN0MDAxIiwicm9sZSI6InJvbGVfdXNlciIsInNlc3Npb25JZCI6InNvbWUtc2Vzc2lvbi1pZCIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTJUMjE6NDU6MDkuODIwWiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4NzY4NjA5LCJleHAiOjE3Mjg3Njk1MDl9.U8RRHCDlSU9qvvL87_XPUOcG9qfxBtrTSSzlVimLL0cwf9H8hySL0r5clJWEnqLu-cIoQDnPXACu0q4O35n4L7wTmoUHX62D8GdfSjfRWjKSzFe6vxjc4W-k9uWSEdmpiMAK4zY1TCggvd3uKDcChbNFuYyrxVbPUkuOkDTej1xqBF1IDO4mjc4RFjmfwmpxwdk9v_72Hb8feL_hS49RVS-F_hHzWGj8nRJiyxUD85tpVbqQE_Vv_lIlLGWgVvAWHRyHVJyM5MEw_yJjHuvM3JdorLNxJJPtETjn2TyuT_u6OwW03daIAQz4L1VzzDC97_ewcmojKnbM9JNk3KqPsg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/permissions",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"permissions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-search",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQyM2YxZDIyLTUxODQtNGJkZC05YzljLTlmZTAwNWQ5NzJlNCIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsInNlc3Npb25JZCI6IjZhMzE4YjM1LWViNTctNGRmOC1hZWVjLTE2MDdiZjViODg3YyIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTRUMDM6MDE6NTguMTA2WiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4ODc0MDE4LCJleHAiOjE3Mjg4NzU4MTh9.EFO5qtgU5opBVDlWSxnAapNSCat81bpX_Od7Ap3YKCdeDlfKiMa2DbaUlUt6KyCcxdeU3DE2x-Bat_o9oH1yg6Y2GWKWLdtGqR2JQrNNnS57zYM8Lw1su23iROuzl7W227VRAK2LnZ8XjLrYcUAcEPRpMXQQvCAuB8EMQ0uahhv1zildL0s78Td1t9Uiyux40AlCxzsqCA2SarBmq0c1tPpqUb3yD8Kx3mCgeEBUOlPzHJhkTH-co2yQklLGntKw0qNvtL4JdU1PAzfzBaG8a9dMp7U1M9EADQ2yxqtEDRuf-zGhurCAhGtkMLu0wpZGnXOZ5czftuBkLVxNQLglvA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/user?page=1&limit=10",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"user"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-register-treasurer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "account-type",
+						"value": "treasurer",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1YjhkMTAxLTRmMmQtNDY4Yy04YWRhLTYzODVjYzM2ZTRlNSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwic2Vzc2lvbklkIjoic29tZS1zZXNzaW9uLWlkIiwiZGV2aWNlIjpudWxsLCJsb2NhdGlvbiI6bnVsbCwiZXhwaXJ5IjoiMjAyNC0xMC0xMlQyMTozMDoyNS41ODRaIiwidG9rZW5UeXBlIjoibG9naW4iLCJpYXQiOjE3Mjg3Njc3MjUsImV4cCI6MTcyODc2ODYyNX0.R_MRwSJyWpLqvrUS8llZpBojgBx2fAlyCBkLXxd1OdpUdAcC4vz8tCXKMgJMMfUoIStPiFrZovCHKGftNIXYlTdbKnPtC15-R0MOIQIE0oDol4-eh1iP814nMphTrSjg3GAHZCbj9OA8R-nvh6Q_hDm8Gthd-L9-e518jgwHkUEKzEO4NNI5SMwLjXWSsC2XSDqyXjc4HZ5kD4KcpRRnm-n0lTY0yvf09gClZ4N5N-6MiDaARqhZhxNtMGrFmjIEDjHwfxEpbUM0pd4DqXAv07godWpUtNMP90HYsejnNm0mSYWnwNViD4fDIE9gLuPUH8iH2AWIyhC-P8BJtgAyLQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{                \r\n  \"firstName\": \"Melinda\",             \r\n  \"lastName\": \"Apple\",              \r\n  \"email\": \"melinda.apple@gmail.com\",   \r\n  \"password\": \"Password.123\",  \r\n  \"gender\": \"F\"            \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/register/admin",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"register",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-register-enterprise",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "account-type",
+						"value": "enterprise",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQyM2YxZDIyLTUxODQtNGJkZC05YzljLTlmZTAwNWQ5NzJlNCIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsInNlc3Npb25JZCI6IjZhMzE4YjM1LWViNTctNGRmOC1hZWVjLTE2MDdiZjViODg3YyIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTRUMDM6MDE6NTguMTA2WiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4ODc0MDE4LCJleHAiOjE3Mjg4NzU4MTh9.EFO5qtgU5opBVDlWSxnAapNSCat81bpX_Od7Ap3YKCdeDlfKiMa2DbaUlUt6KyCcxdeU3DE2x-Bat_o9oH1yg6Y2GWKWLdtGqR2JQrNNnS57zYM8Lw1su23iROuzl7W227VRAK2LnZ8XjLrYcUAcEPRpMXQQvCAuB8EMQ0uahhv1zildL0s78Td1t9Uiyux40AlCxzsqCA2SarBmq0c1tPpqUb3yD8Kx3mCgeEBUOlPzHJhkTH-co2yQklLGntKw0qNvtL4JdU1PAzfzBaG8a9dMp7U1M9EADQ2yxqtEDRuf-zGhurCAhGtkMLu0wpZGnXOZ5czftuBkLVxNQLglvA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{                \r\n  \"firstName\": \"Robert\",             \r\n  \"lastName\": \"Walkie\",              \r\n  \"email\": \"robert.walkie@gmail.com\",   \r\n  \"password\": \"Password.123\",  \r\n  \"gender\": \"M\"            \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/register/admin",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"register",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "client-register-guest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQyM2YxZDIyLTUxODQtNGJkZC05YzljLTlmZTAwNWQ5NzJlNCIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsInNlc3Npb25JZCI6IjZhMzE4YjM1LWViNTctNGRmOC1hZWVjLTE2MDdiZjViODg3YyIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTRUMDM6MDE6NTguMTA2WiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4ODc0MDE4LCJleHAiOjE3Mjg4NzU4MTh9.EFO5qtgU5opBVDlWSxnAapNSCat81bpX_Od7Ap3YKCdeDlfKiMa2DbaUlUt6KyCcxdeU3DE2x-Bat_o9oH1yg6Y2GWKWLdtGqR2JQrNNnS57zYM8Lw1su23iROuzl7W227VRAK2LnZ8XjLrYcUAcEPRpMXQQvCAuB8EMQ0uahhv1zildL0s78Td1t9Uiyux40AlCxzsqCA2SarBmq0c1tPpqUb3yD8Kx3mCgeEBUOlPzHJhkTH-co2yQklLGntKw0qNvtL4JdU1PAzfzBaG8a9dMp7U1M9EADQ2yxqtEDRuf-zGhurCAhGtkMLu0wpZGnXOZ5czftuBkLVxNQLglvA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{                \r\n  \"firstName\": \"Mary Jane\",             \r\n  \"lastName\": \"Foo\",              \r\n  \"email\": \"guest001@example.com\",   \r\n  \"password\": \"Password123\",  \r\n  \"gender\": \"female\"            \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/register/client",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"register",
+						"client"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "guest-login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"guest001@example.com\",\r\n  \"password\": \"Password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/guest/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"guest",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "guest-permission",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5NThhNTkzLTBjNjktNDkxZS04ZDM2LTYzZTYwZTYwYTI3NiIsImZpcnN0bmFtZSI6Ik1hcnkgSmFuZSIsImxhc3RuYW1lIjoiRm9vIiwiZW1haWwiOiJndWVzdDAwMUBleGFtcGxlLmNvbSIsInVzZXJJZCI6Imd1ZXN0MDAxIiwicm9sZSI6InJvbGVfdXNlciIsInNlc3Npb25JZCI6InNvbWUtc2Vzc2lvbi1pZCIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTNUMTQ6MTc6NTcuNTAwWiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4ODI4MTc3LCJleHAiOjE3Mjg4MjkwNzd9.O5QWwAsSfJe0M7rDhYm_VTBXSHrlrsdmWoAd5NMbearEAC3jPrq7IZSlSkNc1tY5P8-C7PN7KdHcxOoRNq0BA-OPyVM2orIl__XsMyldQs7g3VHb-R2WuEBr4hhOV3FejlfX4lYyWquZHHfI8gvvUDltH1Fa9aeiXQc2q5O-n81EwvWHZJICNeQX6gHA0HbLFmdh69PbDhmIBtCSlQt-jl1fFfP6XHWLE7MW5Us5Ju9-OcyKo4uBcIQFPqUtbaA9QLpIgHunTgXMQ3Na69OsfWc5Aierm9NUsAVFSUXj9CBg5C1cIPYsdzxF9kw-IkN4NPpQkt6dVuSLpk6tpfrSPA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"guest001@example.com\",\r\n  \"password\": \"Password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/guest/permissions",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"guest",
+						"permissions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "guest-search",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ3NjNmODBjLTFjYTktNGQwYi1hNjU4LTUyMWJiOWJmN2JiMSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsInNlc3Npb25JZCI6IjM3Zjk2OTQ0LTBkMTktNGI5Yy1hZTBkLTg0MjE0YjBkNzFkNCIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTRUMDI6NDY6MzIuMzE4WiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4ODcyMTkyLCJleHAiOjE3Mjg4NzM5OTJ9.O2Po5_irbw_NsA1CEHysRiOFCSNQLhbj80hP7WQ2wlN5ZNDHjq6DRqZz3hAahuswFKHuRhU2JF46BdcePQGUY8PLiLbp1AgUetVJng2Bgx7eZdNLkuIANBawpZrkuCxYPURqwCpZvDtb5orAql0bZmxpjDop1yg2fBfIRcSWn3X6f9PUrWwSTdDI7M9eHx6sQGL9p8kiksz8kmo4l53XZJw7itEQsXJsDJjVvveNpHX6NT-mXlUpbfNp3gJQQdPK9J_jm2tIaG-lgdoMsGt2xa2RaR2Jxh1JOwOMRaTyvcATDgNWGGnEmPcL9eCtrR10FY7mkQ4KiPg_qZNjY4IwxQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"guest001@example.com\",\r\n  \"password\": \"Password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/guest/search?fullname=Jose Y Rizal Protacio",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"guest",
+						"search"
+					],
+					"query": [
+						{
+							"key": "fullname",
+							"value": "Jose Y Rizal Protacio"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-profiling-search",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQyM2YxZDIyLTUxODQtNGJkZC05YzljLTlmZTAwNWQ5NzJlNCIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsInNlc3Npb25JZCI6IjNkMzg3ZmVmLWFjYzAtNDUwZi1iYTkxLWRmMDM0YzQyODA2MyIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTRUMDU6NDE6MDguNTA0WiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4ODgyNjY4LCJleHAiOjE3Mjg4ODQ0Njh9.ciCMx8Wv0vQ8HWrYAPaTK68R4yKgd9y-vG7oXok1g08XmwpRgyAMn8lcphcmxtfNQ_GjMINvssMJeP0wUzuoAmeVxMOAqkhRn2PXMnq1nEo6Z1l8M2p5cS8LtBcCa7y4zIu0yDUiKNiaakEX6Y5UEN_N_5gPi6gMIocsK-8qB7M4moDzaypFFK9NuOO6e2ufngKM7mzP0azmq05rJTKJwjJuE70F7JoOlR16cqEJ--_HO7CdaFkWeMidiMkLYFCvqEPg29Ll31IkGO5HziQG1gTvOwT8dQ4aWTU0_3Gl_4qfikpIucKGLUXdswrwQFeZKZxXeEpZi5M6iS62jm8mTw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/deceased?page=1&limit=10",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"deceased"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-profiling-add",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQyM2YxZDIyLTUxODQtNGJkZC05YzljLTlmZTAwNWQ5NzJlNCIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsInNlc3Npb25JZCI6IjkwODY3NWE1LWJiY2ItNGNjMC05MDBhLWJkY2IwYjkwY2ZmMSIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTRUMDU6NTg6MzkuMDU5WiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4ODgzNzE5LCJleHAiOjE3Mjg4ODU1MTl9.ldMxiwzY6amyQd-18zdfTKRpq7sBJ7zXXWxr4okdd_Qa6jx0ZLfWV4XKc9zuffOXlq4S7iHLLFxTlBCUmr0Mojps9dANPFhru5DN4k6pTwpl7hKN50qldXS450LfHCRX1JZmq92Y5mPCnL8TC00iyGk5p9txkQCqLXMCdEQpYkdZBTEdNafT02QI-ndjedxtl1jTqJWdxWqcouyMJNnwmp3SfcPUPxWVbvnmi0P_rEMdjJXRNe3oy9IqBf-X8kHdEL_zyFoIVdq_FNJkp5b5hKCfqvhTjXkjagmuAlXm01sGCgB-1wUyt5FbMJipWgu6yPCmK7jWtJP5ncxroiZ66g",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"lastName\": \"Kaisen\",\r\n  \"firstName\": \"Amaia\",\r\n  \"middleName\": \"D\",\r\n  \"suffix\": \"\",\r\n  \"address\": \"Blk 123 Manila\",\r\n  \"born\": \"1945-10-13\",\r\n  \"died\": \"2024-10-13\",\r\n  \"cemeteryLocation\": \"Bambam Buenevista Guimaras Cemetery\",\r\n  \"datePermit\": \"2024-01-01\",\r\n  \"natureApp\": \"excavation\",\r\n  \"layerNiche\": \"`1st Layer\",\r\n  \"layerAddress\": \"BLK1LOT1PH1\",\r\n  \"payeeLastName\": \"Law\",\r\n  \"payeeFirstName\": \"Trafagal\",\r\n  \"payeeMiddleName\": \"D\",\r\n  \"payeeSuffix\": \"Dr.\",\r\n  \"payeeContact\": \"0159029526\",\r\n  \"payeeEmail\": \"trafagal.d.law@hotmail.com\",\r\n  \"payeeAddress\": \"Blk 25, Lot 1, Escopa 3, PUD Site, Project 4, Quezon City\",\r\n  \"canvasMap\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/deceased",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"deceased"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-profiling-get",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1YjhkMTAxLTRmMmQtNDY4Yy04YWRhLTYzODVjYzM2ZTRlNSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwic2Vzc2lvbklkIjoic29tZS1zZXNzaW9uLWlkIiwiZGV2aWNlIjpudWxsLCJsb2NhdGlvbiI6bnVsbCwiZXhwaXJ5IjoiMjAyNC0xMC0xMlQyMjo0MjozNy45NTNaIiwidG9rZW5UeXBlIjoibG9naW4iLCJpYXQiOjE3Mjg3NzIwNTgsImV4cCI6MTcyODc3Mjk1OH0.mYmFnD5GMHpIrApBT8KPMGK95NzQZ4hi0c9H1kfoPCYdMOT5qTZwdyAO4m6yW3lUXANTO9o9egi9njy1ZWnSAXtUh3qzzee9spzfgNKBOLp5BBdjy4aobvNR_SBRxl_aqasXigW9Rk7GAIIsH2cisPOPQL7BouEf81Rxtg9km9NAJVo4J_qY28Ga_a9hAOrFsS7k1Xa1vlh-abgcdajLN9bi-lCrYj7cfS9MkBJ-UIf5rJkZoM-hV0G0O7lEQJiaadGQigwg1f4n-nIpAaeMaiuMsXqy9-2-0FAXt7M9VHeDKdjyk2KEB1SOGRlnafsJqOmzaoWURbw7KPjL-4XTlg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"lastName\": \"Protacio\",\r\n  \"firstName\": \"Jose\",\r\n  \"middleName\": \"Y Rizal\",\r\n  \"suffix\": \"Dr\",\r\n  \"address\": \"Blk 123 Cavite\",\r\n  \"born\": \"1951-10-13\",\r\n  \"died\": \"2024-10-13\",\r\n  \"cemeteryLocation\": \"Bambam Buenevista Guimaras Cemetery\",\r\n  \"datePermit\": \"1987-12-12\",\r\n  \"natureApp\": \"excavation\",\r\n  \"layerNiche\": \"`1st Layer\",\r\n  \"layerAddress\": \"BLK1LOT1PH1\",\r\n  \"payeeLastName\": \"Law\",\r\n  \"payeeFirstName\": \"Trafagal\",\r\n  \"payeeMiddleName\": \"D\",\r\n  \"payeeSuffix\": \"Dr.\",\r\n  \"payeeContact\": \"0159029526\",\r\n  \"payeeEmail\": \"trafagal.d.law@hotmail.com\",\r\n  \"payeeAddress\": \"Blk 25, Lot 1, Escopa 3, PUD Site, Project 4, Quezon City\",\r\n  \"canvasMap\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/deceased/252f8ddb-6697-482e-adea-6f68f28269c0",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"deceased",
+						"252f8ddb-6697-482e-adea-6f68f28269c0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-profiling-update",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1YjhkMTAxLTRmMmQtNDY4Yy04YWRhLTYzODVjYzM2ZTRlNSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwic2Vzc2lvbklkIjoic29tZS1zZXNzaW9uLWlkIiwiZGV2aWNlIjpudWxsLCJsb2NhdGlvbiI6bnVsbCwiZXhwaXJ5IjoiMjAyNC0xMC0xMlQyMjo1ODo0NS4xMDFaIiwidG9rZW5UeXBlIjoibG9naW4iLCJpYXQiOjE3Mjg3NzMwMjUsImV4cCI6MTcyODc3MzkyNX0.Q-tR0x3WLtas-pqPP-uab23qnLPEQyjVVWFDZjU0FD_fb-DqFhnZdrYjb-B6z-DgPvetIrS4MIed8Ajv14xWctgOtlC3rSpAeSIqn3OT9N13Ue3ElijDvLs8ZqdteTxVIZ3Yl8IL3TJdAhriyZ6j0kITp463WMdFa0T6lAkLbbylqr79z0DAGQTB6LvSIKvp2WVMt18lnsqm2Ny8Au9KN4wKSWIE2kr4ySK2N5BObzU0MeW1ucSgBSl4walMh8cVJNlMrYBrgWPMb2TL5vqFfboZ7YoThncAoXo039kVS62jgxAMbyJYUAYGjPeDbbzxZbsB70UqDq-ivCijI5CaxA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"lastName\": \"Apollo\",\r\n  \"firstName\": \"Jose\",\r\n  \"middleName\": \"Y Dantes\",\r\n  \"suffix\": \"Dr\",\r\n  \"address\": \"Blk 123 Cavite\",\r\n  \"born\": \"1951-10-13\",\r\n  \"died\": \"2024-10-13\",\r\n  \"cemeteryLocation\": \"Bambam Buenevista Guimaras Cemetery\",\r\n  \"datePermit\": \"1987-12-12\",\r\n  \"natureApp\": \"excavation\",\r\n  \"layerNiche\": \"`1st Layer\",\r\n  \"layerAddress\": \"BLK1LOT1PH1\",\r\n  \"payeeLastName\": \"Law\",\r\n  \"payeeFirstName\": \"Trafagal\",\r\n  \"payeeMiddleName\": \"D\",\r\n  \"payeeSuffix\": \"Dr.\",\r\n  \"payeeContact\": \"0159029526\",\r\n  \"payeeEmail\": \"trafagal.d.law@hotmail.com\",\r\n  \"payeeAddress\": \"Blk 25, Lot 1, Escopa 3, PUD Site, Project 4, Quezon City\",\r\n  \"canvasMap\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/deceased/252f8ddb-6697-482e-adea-6f68f28269c0",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"deceased",
+						"252f8ddb-6697-482e-adea-6f68f28269c0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-profiling-delete",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1YjhkMTAxLTRmMmQtNDY4Yy04YWRhLTYzODVjYzM2ZTRlNSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwic2Vzc2lvbklkIjoic29tZS1zZXNzaW9uLWlkIiwiZGV2aWNlIjpudWxsLCJsb2NhdGlvbiI6bnVsbCwiZXhwaXJ5IjoiMjAyNC0xMC0xMlQyMjo1ODo0NS4xMDFaIiwidG9rZW5UeXBlIjoibG9naW4iLCJpYXQiOjE3Mjg3NzMwMjUsImV4cCI6MTcyODc3MzkyNX0.Q-tR0x3WLtas-pqPP-uab23qnLPEQyjVVWFDZjU0FD_fb-DqFhnZdrYjb-B6z-DgPvetIrS4MIed8Ajv14xWctgOtlC3rSpAeSIqn3OT9N13Ue3ElijDvLs8ZqdteTxVIZ3Yl8IL3TJdAhriyZ6j0kITp463WMdFa0T6lAkLbbylqr79z0DAGQTB6LvSIKvp2WVMt18lnsqm2Ny8Au9KN4wKSWIE2kr4ySK2N5BObzU0MeW1ucSgBSl4walMh8cVJNlMrYBrgWPMb2TL5vqFfboZ7YoThncAoXo039kVS62jgxAMbyJYUAYGjPeDbbzxZbsB70UqDq-ivCijI5CaxA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"lastName\": \"Apollo\",\r\n  \"firstName\": \"Jose\",\r\n  \"middleName\": \"Y Dantes\",\r\n  \"suffix\": \"Dr\",\r\n  \"address\": \"Blk 123 Cavite\",\r\n  \"born\": \"1951-10-13\",\r\n  \"died\": \"2024-10-13\",\r\n  \"cemeteryLocation\": \"Bambam Buenevista Guimaras Cemetery\",\r\n  \"datePermit\": \"1987-12-12\",\r\n  \"natureApp\": \"excavation\",\r\n  \"layerNiche\": \"`1st Layer\",\r\n  \"layerAddress\": \"BLK1LOT1PH1\",\r\n  \"payeeLastName\": \"Law\",\r\n  \"payeeFirstName\": \"Trafagal\",\r\n  \"payeeMiddleName\": \"D\",\r\n  \"payeeSuffix\": \"Dr.\",\r\n  \"payeeContact\": \"0159029526\",\r\n  \"payeeEmail\": \"trafagal.d.law@hotmail.com\",\r\n  \"payeeAddress\": \"Blk 25, Lot 1, Escopa 3, PUD Site, Project 4, Quezon City\",\r\n  \"canvasMap\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/deceased/252f8ddb-6697-482e-adea-6f68f28269c0",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"deceased",
+						"252f8ddb-6697-482e-adea-6f68f28269c0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-payment-list-by-id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1YjhkMTAxLTRmMmQtNDY4Yy04YWRhLTYzODVjYzM2ZTRlNSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwic2Vzc2lvbklkIjoic29tZS1zZXNzaW9uLWlkIiwiZGV2aWNlIjpudWxsLCJsb2NhdGlvbiI6bnVsbCwiZXhwaXJ5IjoiMjAyNC0xMC0xMlQyMzo0MjowMi4yMjVaIiwidG9rZW5UeXBlIjoibG9naW4iLCJpYXQiOjE3Mjg3NzU2MjIsImV4cCI6MTcyODc3NjUyMn0.IkczVWjLW5xDwI_DSjdEVtbesPTHMao1nWjbCTIdgalQxgH3OSjBzTkpb_h-nX4hrPy5JdQ2MiKUqfmijVAJJUgXm3ip9G3tDg0vW1xjjotw2EPD31ZpcSxTmV-_plVmlMevF-TF3ihrYo_5RjyutcYWhyG-207zXUJXHSM1agFWiq_kkNvZOWIPE9KAixGswO7cs9zFZllAJLD3NNHmpSF11kHw4vtYqRsK8J3EDEu5EdGQmGYYFKaS19V5Ni4HSYHLJQec8GTZpcshAqUNFtL8WneiAq4TaqX7q4shq0iSLtZdZwpdSI75k0p0ozwBz4E9p-hXzSj9_9HAbUaZFA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/payment/77468bd1-d05c-485b-a199-421517225328",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"payment",
+						"77468bd1-d05c-485b-a199-421517225328"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-payment-add-by-id",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1YjhkMTAxLTRmMmQtNDY4Yy04YWRhLTYzODVjYzM2ZTRlNSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwic2Vzc2lvbklkIjoic29tZS1zZXNzaW9uLWlkIiwiZGV2aWNlIjpudWxsLCJsb2NhdGlvbiI6bnVsbCwiZXhwaXJ5IjoiMjAyNC0xMC0xMlQyMzo0MjowMi4yMjVaIiwidG9rZW5UeXBlIjoibG9naW4iLCJpYXQiOjE3Mjg3NzU2MjIsImV4cCI6MTcyODc3NjUyMn0.IkczVWjLW5xDwI_DSjdEVtbesPTHMao1nWjbCTIdgalQxgH3OSjBzTkpb_h-nX4hrPy5JdQ2MiKUqfmijVAJJUgXm3ip9G3tDg0vW1xjjotw2EPD31ZpcSxTmV-_plVmlMevF-TF3ihrYo_5RjyutcYWhyG-207zXUJXHSM1agFWiq_kkNvZOWIPE9KAixGswO7cs9zFZllAJLD3NNHmpSF11kHw4vtYqRsK8J3EDEu5EdGQmGYYFKaS19V5Ni4HSYHLJQec8GTZpcshAqUNFtL8WneiAq4TaqX7q4shq0iSLtZdZwpdSI75k0p0ozwBz4E9p-hXzSj9_9HAbUaZFA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"deceasedName\": \"Jose Y Rizal Protacio\",\r\n  \"datePaid\": \"2025-10-12\",\r\n  \"kindPayment\": \"Rental payment\",\r\n  \"permitNo\": \"401110-12300\",\r\n  \"orderNo\": \"41256\",\r\n  \"amount\": \"2999.00\",\r\n  \"numYearsPay\": \"10\",\r\n  \"nextPaymentDate\": \"2025-10-12\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/payment/77468bd1-d05c-485b-a199-421517225328",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"payment",
+						"77468bd1-d05c-485b-a199-421517225328"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-payment-update-by-id-orderno",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1YjhkMTAxLTRmMmQtNDY4Yy04YWRhLTYzODVjYzM2ZTRlNSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwic2Vzc2lvbklkIjoic29tZS1zZXNzaW9uLWlkIiwiZGV2aWNlIjpudWxsLCJsb2NhdGlvbiI6bnVsbCwiZXhwaXJ5IjoiMjAyNC0xMC0xMlQyMzo0MjowMi4yMjVaIiwidG9rZW5UeXBlIjoibG9naW4iLCJpYXQiOjE3Mjg3NzU2MjIsImV4cCI6MTcyODc3NjUyMn0.IkczVWjLW5xDwI_DSjdEVtbesPTHMao1nWjbCTIdgalQxgH3OSjBzTkpb_h-nX4hrPy5JdQ2MiKUqfmijVAJJUgXm3ip9G3tDg0vW1xjjotw2EPD31ZpcSxTmV-_plVmlMevF-TF3ihrYo_5RjyutcYWhyG-207zXUJXHSM1agFWiq_kkNvZOWIPE9KAixGswO7cs9zFZllAJLD3NNHmpSF11kHw4vtYqRsK8J3EDEu5EdGQmGYYFKaS19V5Ni4HSYHLJQec8GTZpcshAqUNFtL8WneiAq4TaqX7q4shq0iSLtZdZwpdSI75k0p0ozwBz4E9p-hXzSj9_9HAbUaZFA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"deceasedName\": \"Jose Y Rizal Protacio\",\r\n  \"datePaid\": \"2024-10-13\",\r\n  \"kindPayment\": \"Rental payment\",\r\n  \"permitNo\": \"401110-12300>\",\r\n  \"orderNo\": \"41256\",\r\n  \"amount\": \"2999.00\",\r\n  \"numYearsPay\": \"10\",\r\n  \"nextPaymentDate\": \"2025-10-12\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/payment/77468bd1-d05c-485b-a199-421517225328/41256",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"payment",
+						"77468bd1-d05c-485b-a199-421517225328",
+						"41256"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-payment-delete-by-id-orderno",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1YjhkMTAxLTRmMmQtNDY4Yy04YWRhLTYzODVjYzM2ZTRlNSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwic2Vzc2lvbklkIjoic29tZS1zZXNzaW9uLWlkIiwiZGV2aWNlIjpudWxsLCJsb2NhdGlvbiI6bnVsbCwiZXhwaXJ5IjoiMjAyNC0xMC0xMlQyMzo0MjowMi4yMjVaIiwidG9rZW5UeXBlIjoibG9naW4iLCJpYXQiOjE3Mjg3NzU2MjIsImV4cCI6MTcyODc3NjUyMn0.IkczVWjLW5xDwI_DSjdEVtbesPTHMao1nWjbCTIdgalQxgH3OSjBzTkpb_h-nX4hrPy5JdQ2MiKUqfmijVAJJUgXm3ip9G3tDg0vW1xjjotw2EPD31ZpcSxTmV-_plVmlMevF-TF3ihrYo_5RjyutcYWhyG-207zXUJXHSM1agFWiq_kkNvZOWIPE9KAixGswO7cs9zFZllAJLD3NNHmpSF11kHw4vtYqRsK8J3EDEu5EdGQmGYYFKaS19V5Ni4HSYHLJQec8GTZpcshAqUNFtL8WneiAq4TaqX7q4shq0iSLtZdZwpdSI75k0p0ozwBz4E9p-hXzSj9_9HAbUaZFA",
+						"type": "text"
+					},
+					{
+						"key": "reason",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"reason\": \"Wrong details\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/payment/77468bd1-d05c-485b-a199-421517225328/41256/delete",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"payment",
+						"77468bd1-d05c-485b-a199-421517225328",
+						"41256",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-logs",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ3NjNmODBjLTFjYTktNGQwYi1hNjU4LTUyMWJiOWJmN2JiMSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsInNlc3Npb25JZCI6Ijg4Yzc2NTk2LTgwMmItNDI2My05YThiLTg5YmY3OTk3Yjc5MCIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTNUMTc6NDI6MTguMDUyWiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4ODQwNDM4LCJleHAiOjE3Mjg4NDEzMzh9.KUPVQYqn_Z5fqtYbWS5FdoQmGnDYqrFwZoe3no8JuMPb9uJX-2tvjGWWoJ576eA6yqQcE1WOoIy09tLipZJS75pBTNTVp7BZzi-XvaDYh2d0VUiqNR61_36tm7WaWv_Coc1_NlnY864ec600J4tkzWaviNGOYwYRlNs8yTRjXpCsOm8vZpfxpJo5su0fgYeOomDm5eqyTbkoZcEl4riEOJBlgggKQsgkUQZ0I09aUyONLPMKIydIbnhfWos87ejNe5_UQJoDAVsLVFndHNV1r9_CRd_r-9OTUZWX6v2mi63cGcnU13L_Pn9Qm2OfqAkNbBkSLByaRi1wpJjKTSTY6A",
+						"type": "text"
+					},
+					{
+						"key": "reason",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"reason\": \"Wrong details\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/logs",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"logs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-notification",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQyM2YxZDIyLTUxODQtNGJkZC05YzljLTlmZTAwNWQ5NzJlNCIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsInNlc3Npb25JZCI6IjkwNGNhOTc3LWZkZGMtNDZjOC1iZWY2LTYxNjc3MzFhOWUzYSIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTRUMDY6NTQ6MDEuNzk0WiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4ODg3MDQxLCJleHAiOjE3Mjg4ODg4NDF9.B5_QctPaA-Ky9bElFxObFGd_iLwO5juNVyk-kD3q_LwR0znQzORf8FWxNFJhjnqgBh4DiJdgl3jQEhAfI6VmV_vdQEA8b3yNEDhoHpimhnpOks4j04z7TcB4Cxm1HQGLxrdCX0jffZC5Is-D3GG_RQOHp2WX5UYiWO1KgxH5ajK91mERzptzOU36rpzz36GJMdstOc3CaCyVftzQcV4paPMn5dkK6LN0UPDDszoGIQgUU2lVZIony1IlvHv11I-IIM4QmcBMVHknDk3IDI4Hyn3XCee9UAtHkWxiKklW6W6Trtrxedz2lttA48ZVvn-4iCijvKVpmIUu5ZutyvF_OQ",
+						"type": "text"
+					},
+					{
+						"key": "reason",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"reason\": \"Wrong details\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/notifications?page=1&limit",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"notifications"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-report",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1YjhkMTAxLTRmMmQtNDY4Yy04YWRhLTYzODVjYzM2ZTRlNSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwic2Vzc2lvbklkIjoic29tZS1zZXNzaW9uLWlkIiwiZGV2aWNlIjpudWxsLCJsb2NhdGlvbiI6bnVsbCwiZXhwaXJ5IjoiMjAyNC0xMC0xM1QxMzozMzo0MS43NDhaIiwidG9rZW5UeXBlIjoibG9naW4iLCJpYXQiOjE3Mjg4MjU1MjEsImV4cCI6MTcyODgyNjQyMX0.SvTJntBXxgIx_Ptrs-wQmWhPVCTaQqHgrhIfa_Mx2WouF3AF7lLmInkfaRfMrDE7_hgJWi6hVjZ27gAcT8WMZjlB2Cr08tuGkkFwTvvxcAHho0fpx8nmJiIC8l6bOLQwMA476mqzjJfmoxI1kx3J4MYlwf2sLX_BJqRVWdFH7iGd524d6meWsn5GWQdAC4kddKAXpv1LZtsJ57b71cdT0Vp7tHXcgKgKPq27B491HXdnIZwu83K2DfJaFTVE-PTXls9eOz1r92-SE5H97lWapltJABVP_WNFgYUwh4AGwAjNqBBqWGGezemlGa_N5xXgl9RNLIzOHJ4r31eOFGdU7w",
+						"type": "text"
+					},
+					{
+						"key": "reason",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"reason\": \"Wrong details\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/report?year&period",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"report"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": null
+						},
+						{
+							"key": "period",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-report-download",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1YjhkMTAxLTRmMmQtNDY4Yy04YWRhLTYzODVjYzM2ZTRlNSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwic2Vzc2lvbklkIjoic29tZS1zZXNzaW9uLWlkIiwiZGV2aWNlIjpudWxsLCJsb2NhdGlvbiI6bnVsbCwiZXhwaXJ5IjoiMjAyNC0xMC0xM1QxNDoxNjoxMC4zNzhaIiwidG9rZW5UeXBlIjoibG9naW4iLCJpYXQiOjE3Mjg4MjgwNzAsImV4cCI6MTcyODgyODk3MH0.Yq6GeFpYqhwoNNp5GoCm1yIourQhOZXabMJoYCwGP5wjmElwlB9emSVC-WDtFrSDg6vCSoBSrJliH-Q4JtvYMM5VwhKACd43ktl_1h41jsX0dNtTrJK9c2hAIeweFuXmRzViN1Va1rI3oKwWqnnxoJs4jaf81S5j7CTHH7v6eLEscEjjxwjRaROJyIYwW31GUDkygItR2BzKan-YTuEfpObU72zMCeMrdfpalJdrG0Y1F5QfkKu3hZCXnGFEhcjTmkYtj4AOg2a6LZUCHrSDGYmcVSCOSGUOdqlsZVAu-16HJAO1h0AeWKTaLOuZ6THIfL1Hy5-2bs5DQCzEW7T02A",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"reason\": \"Wrong details\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/report/download?year&period",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"report",
+						"download"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": null
+						},
+						{
+							"key": "period",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ3NjNmODBjLTFjYTktNGQwYi1hNjU4LTUyMWJiOWJmN2JiMSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsInNlc3Npb25JZCI6Ijg4Yzc2NTk2LTgwMmItNDI2My05YThiLTg5YmY3OTk3Yjc5MCIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTNUMTc6NDI6MTguMDUyWiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4ODQwNDM4LCJleHAiOjE3Mjg4NDEzMzh9.KUPVQYqn_Z5fqtYbWS5FdoQmGnDYqrFwZoe3no8JuMPb9uJX-2tvjGWWoJ576eA6yqQcE1WOoIy09tLipZJS75pBTNTVp7BZzi-XvaDYh2d0VUiqNR61_36tm7WaWv_Coc1_NlnY864ec600J4tkzWaviNGOYwYRlNs8yTRjXpCsOm8vZpfxpJo5su0fgYeOomDm5eqyTbkoZcEl4riEOJBlgggKQsgkUQZ0I09aUyONLPMKIydIbnhfWos87ejNe5_UQJoDAVsLVFndHNV1r9_CRd_r-9OTUZWX6v2mi63cGcnU13L_Pn9Qm2OfqAkNbBkSLByaRi1wpJjKTSTY6A",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3002/admin/treasurer",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"treasurer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-search",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1YjhkMTAxLTRmMmQtNDY4Yy04YWRhLTYzODVjYzM2ZTRlNSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsInNlc3Npb25JZCI6InNvbWUtc2Vzc2lvbi1pZCIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTNUMTQ6NTc6NDIuNzY1WiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4ODMwNTYyLCJleHAiOjE3Mjg4MzE0NjJ9.nrsqMrFUGHDJnc6VPpZNN3uzAjswgrbr57XnHLde3wOH3hDUhjHl9ZJ3CRTwotiktwCEEvoPYyaq2dOxSOS916umJXo65CHoRPyF_MmIU0O6s_hEz2UkOpF5MJ_BvcLNhMXheMunvcBMSrCzI6qsYgwCasUSrnLvTT8aRAhQ31dQvHjjGUqAEEUd3vH3DDLCKNAVjRfnPBZQ5C9IQY037D-owT1c30TFaasE13aQ-UTOcBFMfE8nRRDxVRCr3OxmbvtQ1dsbqANxyewFLE1GT0Xkgj6W18VwVLzx6WpEm3D6mP8syzVB3voTb_L4h3JoXgguSUmBExEdHFZ-G52_yQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3002/admin/treasurer?userId=melinda.apple",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"treasurer"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "melinda.apple"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-get-by-id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1YjhkMTAxLTRmMmQtNDY4Yy04YWRhLTYzODVjYzM2ZTRlNSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsInNlc3Npb25JZCI6InNvbWUtc2Vzc2lvbi1pZCIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTNUMTQ6NTc6NDIuNzY1WiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4ODMwNTYyLCJleHAiOjE3Mjg4MzE0NjJ9.nrsqMrFUGHDJnc6VPpZNN3uzAjswgrbr57XnHLde3wOH3hDUhjHl9ZJ3CRTwotiktwCEEvoPYyaq2dOxSOS916umJXo65CHoRPyF_MmIU0O6s_hEz2UkOpF5MJ_BvcLNhMXheMunvcBMSrCzI6qsYgwCasUSrnLvTT8aRAhQ31dQvHjjGUqAEEUd3vH3DDLCKNAVjRfnPBZQ5C9IQY037D-owT1c30TFaasE13aQ-UTOcBFMfE8nRRDxVRCr3OxmbvtQ1dsbqANxyewFLE1GT0Xkgj6W18VwVLzx6WpEm3D6mP8syzVB3voTb_L4h3JoXgguSUmBExEdHFZ-G52_yQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3002/admin/treasurer/e2291c63-0798-4e60-adbf-277e7759a0e0",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"treasurer",
+						"e2291c63-0798-4e60-adbf-277e7759a0e0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-update-by-id",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1YjhkMTAxLTRmMmQtNDY4Yy04YWRhLTYzODVjYzM2ZTRlNSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsInNlc3Npb25JZCI6InNvbWUtc2Vzc2lvbi1pZCIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTNUMTQ6NTc6NDIuNzY1WiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4ODMwNTYyLCJleHAiOjE3Mjg4MzE0NjJ9.nrsqMrFUGHDJnc6VPpZNN3uzAjswgrbr57XnHLde3wOH3hDUhjHl9ZJ3CRTwotiktwCEEvoPYyaq2dOxSOS916umJXo65CHoRPyF_MmIU0O6s_hEz2UkOpF5MJ_BvcLNhMXheMunvcBMSrCzI6qsYgwCasUSrnLvTT8aRAhQ31dQvHjjGUqAEEUd3vH3DDLCKNAVjRfnPBZQ5C9IQY037D-owT1c30TFaasE13aQ-UTOcBFMfE8nRRDxVRCr3OxmbvtQ1dsbqANxyewFLE1GT0Xkgj6W18VwVLzx6WpEm3D6mP8syzVB3voTb_L4h3JoXgguSUmBExEdHFZ-G52_yQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"John\",\r\n  \"lastName\": \"Doe\",\r\n  \"email\": \"john.doe@treasurer.com\",\r\n  \"password\": \"newpassword123\",\r\n  \"location\": \"New York\",\r\n  \"device\": \"iPhone\",\r\n  \"gender\": \"M\",\r\n  \"status\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/treasurer/e2291c63-0798-4e60-adbf-277e7759a0e0",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"treasurer",
+						"e2291c63-0798-4e60-adbf-277e7759a0e0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "treasurer-delete-by-id",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1YjhkMTAxLTRmMmQtNDY4Yy04YWRhLTYzODVjYzM2ZTRlNSIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBndWltYXJhcy1jZW1ldGVyeS5jb20iLCJ1c2VySWQiOiJhZG1pbiIsInJvbGUiOiJyb2xlX2FkbWluIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsInNlc3Npb25JZCI6InNvbWUtc2Vzc2lvbi1pZCIsImRldmljZSI6bnVsbCwibG9jYXRpb24iOm51bGwsImV4cGlyeSI6IjIwMjQtMTAtMTNUMTQ6NTc6NDIuNzY1WiIsInRva2VuVHlwZSI6ImxvZ2luIiwiaWF0IjoxNzI4ODMwNTYyLCJleHAiOjE3Mjg4MzE0NjJ9.nrsqMrFUGHDJnc6VPpZNN3uzAjswgrbr57XnHLde3wOH3hDUhjHl9ZJ3CRTwotiktwCEEvoPYyaq2dOxSOS916umJXo65CHoRPyF_MmIU0O6s_hEz2UkOpF5MJ_BvcLNhMXheMunvcBMSrCzI6qsYgwCasUSrnLvTT8aRAhQ31dQvHjjGUqAEEUd3vH3DDLCKNAVjRfnPBZQ5C9IQY037D-owT1c30TFaasE13aQ-UTOcBFMfE8nRRDxVRCr3OxmbvtQ1dsbqANxyewFLE1GT0Xkgj6W18VwVLzx6WpEm3D6mP8syzVB3voTb_L4h3JoXgguSUmBExEdHFZ-G52_yQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"John\",\r\n  \"lastName\": \"Doe\",\r\n  \"email\": \"john.doe@treasurer.com\",\r\n  \"password\": \"newpassword123\",\r\n  \"location\": \"New York\",\r\n  \"device\": \"iPhone\",\r\n  \"gender\": \"M\",\r\n  \"status\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3002/admin/treasurer/e2291c63-0798-4e60-adbf-277e7759a0e0/delete",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"admin",
+						"treasurer",
+						"e2291c63-0798-4e60-adbf-277e7759a0e0",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

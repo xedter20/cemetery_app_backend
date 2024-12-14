@@ -1,0 +1,23 @@
+# SonarLint and Metadata
+.sonarlint
+.metadata
+
+# Cemetery Service Folders
+cemetery-service/dist
+cemetery-service/node_modules
+cemetery-service/com_d_app
+
+# Auth Service Folders
+auth-service/dist
+auth-service/node_modules
+auth-service/com_d_app
+
+# Cemetery DB Lite
+cemetery-db-lite/data
+
+# Node Modules
+node_modules/
+
+# Environment Variables and Sensitive Files
+.env
+*.pem

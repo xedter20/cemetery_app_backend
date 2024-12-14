@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: cemetery-db-lite
+  datasource:
+    driverClassName: org.h2.Driver
+    #url: jdbc:h2:mem:testdb;INIT=RUNSCRIPT FROM 'file:dbscripts/init/create_schema.sql';DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=FALSE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;DB_CLOSE_ON_EXIT=false;MODE=PostgreSQL
+    url: jdbc:h2:file:C:/Users/machr/CEMETERY/cemetery-be/cemetery-db-lite/data/testdb;INIT=RUNSCRIPT FROM 'file:dbscripts/init/create_schema.sql';DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=FALSE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;DB_CLOSE_ON_EXIT=false;MODE=PostgreSQL
+    username: com_d_app
+    password: com_d_app@1
+  h2:
+    console:
+      enabled: true
+      path: /h2-cemetery
+      settings: 
+        trace: true
+        webAllowOthers: true
+        tcpAllowOthers: true
+  sql:
+    init:
+      schemaLocations: 
+      - file:dbscripts/init/create_schema.sql
+      mode: always
+      platform: h2
