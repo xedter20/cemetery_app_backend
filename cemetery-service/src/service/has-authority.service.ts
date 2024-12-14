@@ -1,23 +1,22 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 import * as fs from 'fs';
+import * as path from 'path';
 import { PrincipalUser } from '../controller/dto/principal-user.dto';
 
 @Injectable()
 export class HasAuthorityService {
   private publicKey: string;
-
+  private readonly logger = new Logger(HasAuthorityService.name);
   constructor() {
     // Load the RSA public key from the environment variable
-    const publicKeyPath = './../keys/public.pem';
-
-    if (!publicKeyPath) {
-      throw new Error(
-        'Public key path is not defined in environment variables',
-      );
+    const publicKeyPath = './../keys/public.pem'; // Default path if not set
+    try {
+      this.publicKey = fs.readFileSync(path.resolve(publicKeyPath), 'utf8');
+      this.logger.log('Public key loaded successfully.');
+    } catch (error) {
+      this.logger.error('Error loading private key:', error);
     }
-    // Load the RSA public key
-    this.publicKey = fs.readFileSync(publicKeyPath, 'utf8');
   }
 
   validateToken(token: string): any {
