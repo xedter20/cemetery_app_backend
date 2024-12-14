@@ -29,8 +29,7 @@ dotenv.config();
 async function bootstrap() {
   const dataSource = new DataSource({
     type: 'sqlite', // Replace with your database type ('postgres', 'mysql', etc.)
-    database:
-      'C:/Users/machr/CEMETERY/cemetery-be/cemetery-db-lite/data/testdb', // Path to H2 database
+    database: 'C:/DexDev/sqlite/data/testdb', // Path to H2 database
     entities: [Permission], // Define your entities
     synchronize: true, // Automatically sync the schema (only for development)
     logging: true, // Optionally enable logging

@@ -36,8 +36,7 @@ import { AuthSession } from './model/auth-session.entity';
 
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database:
-        'C:/Users/machr/CEMETERY/cemetery-be/cemetery-db-lite/data/testdb', // Path to H2 database
+      database: 'C:/DexDev/sqlite/data/testdb', // Path to H2 database
       synchronize: true, // Automatically sync schema to database
       logging: true, // Enable logging for troubleshooting
       entities: [AuthSession], // Register the AuthSession entity
