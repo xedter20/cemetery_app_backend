@@ -9,17 +9,19 @@ export class HasAuthorityService {
 
   constructor() {
     // Load the RSA public key from the environment variable
-    const publicKeyPath = process.env.PUBLIC_KEY_PATH;
+    const publicKeyPath = '../../keys/public.pem';
 
     if (!publicKeyPath) {
-      throw new Error('Public key path is not defined in environment variables');
+      throw new Error(
+        'Public key path is not defined in environment variables',
+      );
     }
     // Load the RSA public key
     this.publicKey = fs.readFileSync(publicKeyPath, 'utf8');
   }
 
   validateToken(token: string): any {
-    console.log('Inside validateToken'); 
+    console.log('Inside validateToken');
     try {
       // Verify the token using the public RSA key
       return jwt.verify(token, this.publicKey, { algorithms: ['RS256'] });
@@ -30,7 +32,7 @@ export class HasAuthorityService {
 
   // Create an instance of PrincipalUser and populate it with the token data
   getPrincipalUserFromToken(decodedToken: any): PrincipalUser {
-    console.log('Inside getPrincipalUserFromToken'); 
+    console.log('Inside getPrincipalUserFromToken');
     const principalUser = new PrincipalUser();
     return principalUser.mapFromToken(decodedToken);
   }

@@ -8,6 +8,8 @@ async function bootstrap() {
   console.log('jhammsmmss');
   app.useLogger(app.get(Logger));
   const port = process.env.PORT || 3000;
+
+  console.log(`auth - ${port}`);
   await app.listen(port, '0.0.0.0');
   Logger.log(`Application is running onssss: ${await app.getUrl()}`);
 }

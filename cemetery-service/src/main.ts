@@ -531,7 +531,10 @@ async function bootstrap() {
   await adminInsertService.insertAdmin();
 
   // Set the port
-  const port = 3005;
+  const port = process.env.PORT || 3000;
+
+  console.log(`cemetery - ${port}`);
+
   await nestApp.listen(port, '0.0.0.0');
 
   console.log(`Application is runningssssss dex on: http://localhost:${port}`);
