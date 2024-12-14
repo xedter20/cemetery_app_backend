@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "setup": "npm install",
-    "start": "concurrently \"npm run start:debug --prefix auth-service\" \"npm run start:debug --prefix cemetery-service\"",
+    "start": "npm run start:debug --prefix auth-service & npm run start:debug --prefix cemetery-service",
     "start:debug": "nest start --debug --watch"
   },
   "devDependencies": {
