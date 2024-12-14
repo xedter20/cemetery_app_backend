@@ -532,7 +532,7 @@ async function bootstrap() {
 
   // Set the port
   const port = 3005;
-  await nestApp.listen(port);
+  await nestApp.listen(port, '0.0.0.0');
 
   console.log(`Application is runningssssss dex on: http://localhost:${port}`);
 }
