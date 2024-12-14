@@ -12,16 +12,16 @@ dotenv.config();
 
 @Injectable()
 export class AuthService {
-  private readonly logger = new Logger(AuthService.name); 
-  
-   // Dynamically load RSA private key from the environment variable path
-   private privateKey: string;
+  private readonly logger = new Logger(AuthService.name);
 
-   constructor(
+  // Dynamically load RSA private key from the environment variable path
+  private privateKey: string;
+
+  constructor(
     @InjectRepository(AuthSession)
     private authSessionRepository: Repository<AuthSession>,
   ) {
-    const privateKeyPath =  '../../keys/private.pem'; // Default path if not set
+    const privateKeyPath = './../keys/private.pem'; // Default path if not set
     try {
       this.privateKey = fs.readFileSync(path.resolve(privateKeyPath), 'utf8');
       this.logger.log('Private key loaded successfully.');
@@ -30,18 +30,14 @@ export class AuthService {
     }
   }
 
-
-   // Load RSA private key from environment variable path
-
-
-
+  // Load RSA private key from environment variable path
 
   // Load RSA public key from environment variable path
   // private publicKey = fs.readFileSync(process.env.PUBLIC_KEY_PATH, 'utf8');
 
   async generate(principalUser: PrincipalUser) {
-    console.log({dex:this.privateKey,ter:process.env.PRIVATE_KEY_PATH});
-    console.log('Received request to /auth/generate', principalUser); 
+    console.log({ dex: this.privateKey, ter: process.env.PRIVATE_KEY_PATH });
+    console.log('Received request to /auth/generate', principalUser);
     try {
       // Create bearer token with RSA private key
       const token = jwt.sign(
@@ -60,12 +56,10 @@ export class AuthService {
           tokenType: principalUser.tokenType,
         },
         this.privateKey,
-        { algorithm: 'RS256', expiresIn: '30m' } // Token expiry of 30 minutes
+        { algorithm: 'RS256', expiresIn: '30m' }, // Token expiry of 30 minutes
       );
 
       this.logger.log('Saving token to Redis with key CMTRY_TOKEN_1');
-
-     
 
       // Save token and related data to H2 database
       this.logger.log('Saving token and session data to database');
@@ -83,12 +77,15 @@ export class AuthService {
 
       // Response with TokenResponse DTO
       return {
-        statusCode : '0',
+        statusCode: '0',
         token: token,
         expiresIn: '30 minutes',
       };
     } catch (error) {
-      this.logger.error('Error generating token or saving session data', error.stack);
+      this.logger.error(
+        'Error generating token or saving session data',
+        error.stack,
+      );
       throw error; // Re-throw the error after logging it
     }
   }
