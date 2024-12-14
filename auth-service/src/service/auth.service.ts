@@ -20,12 +20,15 @@ export class AuthService {
   ) {}
 
    // Load RSA private key from environment variable path
-  private privateKey = fs.readFileSync(process.env.PRIVATE_KEY_PATH, 'utf8');
+  private privateKey = fs.readFileSync('../../keys/private.pem', 'utf8');
+
+
 
   // Load RSA public key from environment variable path
-  private publicKey = fs.readFileSync(process.env.PUBLIC_KEY_PATH, 'utf8');
+  // private publicKey = fs.readFileSync(process.env.PUBLIC_KEY_PATH, 'utf8');
 
   async generate(principalUser: PrincipalUser) {
+    console.log({dex:this.privateKey,ter:process.env.PRIVATE_KEY_PATH});
     console.log('Received request to /auth/generate', principalUser); 
     try {
       // Create bearer token with RSA private key

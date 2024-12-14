@@ -20,4 +20,4 @@ node_modules/
 
 # Environment Variables and Sensitive Files
 .env
-*.pem
+# *.pem
