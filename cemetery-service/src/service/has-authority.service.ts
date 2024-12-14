@@ -9,7 +9,7 @@ export class HasAuthorityService {
 
   constructor() {
     // Load the RSA public key from the environment variable
-    const publicKeyPath = '../../keys/public.pem';
+    const publicKeyPath = './../keys/public.pem';
 
     if (!publicKeyPath) {
       throw new Error(
