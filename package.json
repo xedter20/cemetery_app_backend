@@ -1,0 +1,16 @@
+{
+  "name": "cemetery-be",
+  "private": true,
+  "workspaces": [
+    "auth-service",
+    "cemetery-service"
+  ],
+  "scripts": {
+    "setup": "npm install",
+    "start": "concurrently \"npm run start:debug --prefix auth-service\" \"npm run start:debug --prefix cemetery-service\"",
+    "start:debug": "nest start --debug --watch"
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0"
+  }
+}
