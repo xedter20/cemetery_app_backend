@@ -11,13 +11,13 @@ spring:
     console:
       enabled: true
       path: /h2-cemetery
-      settings: 
+      settings:
         trace: true
         webAllowOthers: true
         tcpAllowOthers: true
   sql:
     init:
-      schemaLocations: 
-      - file:dbscripts/init/create_schema.sql
+      schemaLocations:
+        - file:dbscripts/init/create_schema.sql
       mode: always
       platform: h2
