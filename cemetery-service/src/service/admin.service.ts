@@ -109,6 +109,8 @@ export class AdminService {
 
     try {
       // Call the auth-service to generate a token
+      // const authServiceUrl = 'http://localhost:3001';
+
       const authServiceUrl = 'https://cemetery-app-backend.onrender.com';
       const response = await firstValueFrom(
         this.httpService.post(`${authServiceUrl}/auth/generate`, principalUser),

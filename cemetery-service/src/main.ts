@@ -25,7 +25,8 @@ import { Permission } from './model/permission.entity';
 import { PrincipalUserService } from './config/security/principal-user.service';
 
 import * as mysql from 'mysql2'; // This is the proper way to import mysql2 in modern JavaScript (ES6+)
-
+import * as cron from 'node-cron';
+import * as moment from 'moment';
 dotenv.config();
 
 async function bootstrap() {
@@ -119,6 +120,33 @@ async function bootstrap() {
     }
   });
 
+  app.get('/api/deceased/getPayments/:DECEASED_ID', async (req, res) => {
+    let DECEASED_ID = req.params.DECEASED_ID;
+
+    try {
+      const query = `
+    
+      SELECT * FROM cmn_tx_payment WHERE DECEASED_ID = '${DECEASED_ID}'
+       ORDER BY NEXT_PAYMENT_DATE DESC;
+      `;
+
+      const rows = await queryAsync(query, [DECEASED_ID]);
+
+      return res.status(200).json({
+        statusCode: 200,
+        message: 'Deceased found successfully',
+        data: rows, // Return the list of deceased records
+      });
+    } catch (err) {
+      console.error('Error occurred while searching for deceased:', err);
+      return res.status(500).json({
+        statusCode: 500,
+        message: 'An error occurred while processing your request',
+        data: [],
+      });
+    }
+  });
+
   app.post('/api/deceased/create', async (req, res) => {
     let {
       firstName, // The variables will be passed as values for the placeholders.
@@ -146,17 +174,65 @@ async function bootstrap() {
       let DECEASED_ID = uuidv4();
       let labelName = '';
 
+      const queryCheckIfExists = `
+    SELECT COUNT(*) AS count
+    FROM cmn_tx_deceased
+    WHERE FNAME = ? AND LNAME = ? AND MNAME = ? AND DIED = ? AND BORN = ? 
+  `;
+
+      const resultCheck = await queryAsync(queryCheckIfExists, [
+        firstName,
+        lastName,
+        middleName,
+        died,
+        born,
+      ]);
+
+      // Check if no records match the criteria
+      if (resultCheck[0].count > 0) {
+        return res
+          .status(400)
+          .json({ success: false, message: 'Deceased already exists' });
+      }
+
       const query = `
-      INSERT INTO "cmn_tx_deceased" 
-        (
-      
-        "DECEASED_ID",
-        "LABEL_NAME", "LNAME", "FNAME", "MNAME", "SUFFIX", "ADDRESS", "BORN", "DIED", "CMTRY_LOC", 
-         "DATE_PERMIT", "NATURE_APP", "LAYER_NICHE", "LAYER_ADDR", "PAYEE_LNAME", "PAYEE_FNAME", "PAYEE_MNAME", 
-         "PAYEE_SUFFIX", "PAYEE_CONTACT", "PAYEE_EMAIL", "PAYEE_ADDRESS", "OPT_1", "OPT_2", "REMARKS", "STATUS", 
-         "CANVAS_MAP", "REASON", "ADDED_BY", "ADDED_DATE", "MODIFIED_BY", "MODIFIED_DATE")
-      VALUES 
-        (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)
+      INSERT INTO cmn_tx_deceased (
+            DECEASED_ID,
+          LABEL_NAME,
+          LNAME,
+          FNAME,
+          MNAME,
+          SUFFIX,
+          ADDRESS,
+          BORN,
+          DIED,
+          CMTRY_LOC,
+          DATE_PERMIT,
+          NATURE_APP,
+          LAYER_NICHE,
+          LAYER_ADDR,
+          PAYEE_LNAME,
+          PAYEE_FNAME,
+          PAYEE_MNAME,
+          PAYEE_SUFFIX,
+          PAYEE_CONTACT,
+          PAYEE_EMAIL,
+          PAYEE_ADDRESS,
+          OPT_1,
+          OPT_2,
+          REMARKS,
+          STATUS,
+          CANVAS_MAP,
+          REASON,
+          ADDED_BY,
+          ADDED_DATE,
+          MODIFIED_BY,
+          MODIFIED_DATE
+
+      )
+      VALUES (
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+      );
     `;
 
       const result = await queryAsync(query, [
@@ -207,7 +283,22 @@ async function bootstrap() {
   app.post('/api/users/create', async (req, res) => {
     const { email, firstName, lastName, middleName, password, role } = req.body;
 
-    const query = `
+    try {
+      const passwordNew = password || 'Password12345678';
+      const hashedPassword = await bcrypt.hash(passwordNew, 10);
+      let id = uuidv4();
+
+      const emailCheckQuery = `SELECT COUNT(*) AS count FROM cmn_dm_usr WHERE EMAIL = ?`;
+      const resultCheck = await queryAsync(emailCheckQuery, [email]);
+
+      // Check the count from the query result
+      if (resultCheck[0].count > 0) {
+        return res
+          .status(400)
+          .json({ success: false, message: 'Email already exists' });
+      }
+
+      const query = `
       INSERT INTO cmn_dm_usr (
       ID,
       
@@ -215,37 +306,6 @@ async function bootstrap() {
       VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
     `;
 
-    try {
-      const passwordNew = password || 'Password12345678';
-      const hashedPassword = await bcrypt.hash(passwordNew, 10);
-      let id = uuidv4();
-
-      // Create new admin user
-      // const adminUser = this.userRepository.create({
-      //   id: uuidv4(),
-      //   userId: 'admin',
-      //   role: 'role_admin',
-      //   accountType: 'admin',
-      //   firstName: 'Admin',
-      //   lastName: 'User',
-      //   password: hashedPassword,
-      //   email: adminEmail,
-      //   gender: 'M',
-      //   status: 1,
-      //   addedBy: 'SYSTEM',
-      //   addedDate: new Date().toISOString(),
-      //   modifiedBy: 'SYSTEM',
-      //   modifiedDate: new Date().toISOString(),
-      // });
-
-      console.log({
-        id,
-        role,
-        firstName,
-        lastName,
-        hashedPassword,
-        email,
-      });
       const result = await queryAsync(query, [
         id,
         role,
@@ -435,11 +495,11 @@ async function bootstrap() {
 
       // Insert into the database
       const query = `
-          INSERT INTO CMN_TX_PAYMENT (
+          INSERT INTO cmn_tx_payment (
               DECEASED_ID, DECEASED_NAME, DATE_PAID, KIND_PAYMENT, PERMIT_NO, ORDER_NO,
               AMOUNT, NUM_YEARS_PAY, NEXT_PAYMENT_DATE, REASON, STATUS,
-              ADDED_BY, ADDED_DATE, MODIFIED_BY, MODIFIED_DATE
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+              ADDED_BY, MODIFIED_BY, MODIFIED_DATE , AMOUNT_PER_YEAR
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? );
       `;
 
       const result = await queryAsync(query, [
@@ -455,9 +515,9 @@ async function bootstrap() {
         null, // REASON (not provided)
         'Active', // STATUS (default to 'Active')
         ADDED_BY, // ADDED_BY
-        addedDate, // ADDED_DATE
         null, // MODIFIED_BY (not provided)
-        null, // MODIFIED_DATE (not provided)
+        null,
+        AMOUNT_PER_YEAR,
       ]);
 
       res.json({ success: true });
@@ -470,7 +530,7 @@ async function bootstrap() {
   // Get all payments
   app.post('/api/payments/all', async (req, res) => {
     try {
-      const query = 'SELECT * FROM CMN_TX_PAYMENT';
+      const query = 'SELECT * FROM cmn_tx_payment';
       const rows = await queryAsync(query, []);
       res.json({ success: true, data: rows });
     } catch (error) {
@@ -532,9 +592,32 @@ async function bootstrap() {
 
   console.log(`cemetery - ${port}`);
 
+  // await cron.schedule('*/5 * * * * *', async () => {
+  //   console.log('Running cron job to check payments...123');
+
+  //   const today = moment().format('YYYY-MM-DD');
+  //   const threeDaysBeforeOrEqual = moment().add(3, 'days').format('YYYY-MM-DD');
+
+  //   // Query the cmn_tx_payment table for upcoming payments
+
+  //   console.log({ threeDaysBeforeOrEqual });
+  //   const query = `
+  //     SELECT * FROM cmn_tx_payment
+  //       WHERE NEXT_PAYMENT_DATE <= ?
+  //   `;
+
+  //   try {
+  //     const results = await queryAsync(query, [threeDaysBeforeOrEqual]);
+
+  //     console.log({ results });
+  //   } catch (err) {
+  //     console.error('Database query error:', err.message);
+  //   }
+  // });
+
   await nestApp.listen(port, '0.0.0.0');
 
-  console.log(`Application is runningssssss dex on: http://localhost:${port}`);
+  console.log(`Application is running on: http://localhost:${port}`);
 }
 
 bootstrap();
