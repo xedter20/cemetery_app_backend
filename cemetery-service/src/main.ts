@@ -24,6 +24,8 @@ import { DataSource } from 'typeorm';
 import { Permission } from './model/permission.entity';
 import { PrincipalUserService } from './config/security/principal-user.service';
 
+import * as mysql from 'mysql2'; // This is the proper way to import mysql2 in modern JavaScript (ES6+)
+
 dotenv.config();
 
 async function bootstrap() {
@@ -56,33 +58,29 @@ async function bootstrap() {
   // Create a new SQLite database connection (or open the existing one)
 
   // Create a new SQLite database connection (or open the existing one)
-  const db = new sqlite3.Database(
-    `C:/DexDev/sqlite/data/testdb`,
-    sqlite3.OPEN_READWRITE,
-    (err) => {
-      console.log(err);
-      if (err) {
-        console.error('Failed to open the database:', err.message);
-      } else {
-        console.log('Connected to the SQLite database.');
-      }
-    },
-  );
-
+  const pool = await mysql.createPool({
+    host: 'jcqlf1.stackhero-network.com',
+    user: 'root',
+    password: 'OwhHbxDtBwsDB9VlClLwfkzw9MTBr70m',
+    database: 'cemetery_db',
+    port: 4300,
+  });
   // Utility function to promisify the db.all callback-based method
-  function queryAsync(query: string, params: any[]): Promise<any[]> {
-    return new Promise((resolve, reject) => {
-      db.all(query, params, (err, rows) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(rows);
-        }
-      });
-    });
-  }
+  // Utility function to promisify the db.query callback-based method
+  async function queryAsync(query: string, params: any[]): Promise<any> {
+    try {
+      const [results, fields] = await pool.promise().execute(query, params);
 
-  // Define your custom route
+      // Check if the query is a SELECT query based on the presence of rows
+      if (query.trim().startsWith('SELECT')) {
+        return results; // Return rows for SELECT queries
+      } else {
+        return results; // Return OkPacket for non-SELECT queries (e.g., INSERT, UPDATE)
+      }
+    } catch (error) {
+      throw new Error(`Query failed: ${error.message}`);
+    }
+  }
   app.get('/custom', async (req, res) => {
     let fullname = 'yosh'; // This could be dynamic based on req.query or req.body
 
