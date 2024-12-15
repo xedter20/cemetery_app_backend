@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 // import { conditionalColumn } from '../utils/conditionalColumn';
 
-@Entity('AUTH_DM_SESSION')
+@Entity('auth_dm_session')
 export class AuthSession {
   @PrimaryGeneratedColumn()
   id: number;

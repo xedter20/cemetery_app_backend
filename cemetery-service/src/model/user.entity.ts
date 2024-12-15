@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'CMN_DM_USR' })
+@Entity({ name: 'cmn_dm_usr' })
 export class User {
   @PrimaryGeneratedColumn({ name: 'SEQ_NO' })
   seqNo: number;
@@ -14,7 +14,7 @@ export class User {
   @Column({ name: 'ROLE' })
   role: string;
 
-  @Column({ name: 'ACCOUNT_TYPE'})
+  @Column({ name: 'ACCOUNT_TYPE' })
   accountType: string;
 
   @Column({ name: 'FIRST_NAME' })
@@ -47,12 +47,22 @@ export class User {
   @Column({ name: 'ADDED_BY', nullable: true })
   addedBy: string;
 
-  @Column({ name: 'ADDED_DATE', type: 'text', default: () => `(datetime('now', 'localtime'))`, nullable: true })
+  @Column({
+    name: 'ADDED_DATE',
+    type: 'text',
+    default: () => `(datetime('now', 'localtime'))`,
+    nullable: true,
+  })
   addedDate: string;
 
   @Column({ name: 'MODIFIED_BY', nullable: true })
   modifiedBy: string;
 
-  @Column({ name: 'MODIFIED_DATE', type: 'text', default: () => `(datetime('now', 'localtime'))`, nullable: true })
+  @Column({
+    name: 'MODIFIED_DATE',
+    type: 'text',
+    default: () => `(datetime('now', 'localtime'))`,
+    nullable: true,
+  })
   modifiedDate: string;
 }

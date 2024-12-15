@@ -57,7 +57,7 @@ async function bootstrap() {
 
   // Create a new SQLite database connection (or open the existing one)
   const db = new sqlite3.Database(
-    `C:\\Users\\machr\\CEMETERY\\cemetery-be\\cemetery-db-lite\\data\\testdb`,
+    `C:/DexDev/sqlite/data/testdb`,
     sqlite3.OPEN_READWRITE,
     (err) => {
       console.log(err);
@@ -210,7 +210,7 @@ async function bootstrap() {
     const { email, firstName, lastName, middleName, password, role } = req.body;
 
     const query = `
-      INSERT INTO CMN_DM_USR (
+      INSERT INTO cmn_dm_usr (
       ID,
       
       ROLE, ACCOUNT_TYPE, FIRST_NAME, LAST_NAME, PASSWORD, EMAIL, ADDED_DATE)

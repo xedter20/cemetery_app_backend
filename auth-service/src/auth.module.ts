@@ -8,7 +8,9 @@ import { HttpModule } from '@nestjs/axios';
 import { AuthController } from './controller/auth.controller';
 import { AuthService } from './service/auth.service';
 import { AuthSession } from './model/auth-session.entity';
+import { nativePassword } from 'mysql/lib/protocol/Auth';
 
+import { createConnection } from 'mysql2';
 @Module({
   imports: [
     TypeOrmModule.forFeature([AuthSession]),
@@ -34,12 +36,32 @@ import { AuthSession } from './model/auth-session.entity';
     // }),
     // TypeORM for H2 database connection
 
+    // host: 'jcqlf1.stackhero-network.com',
+    // user: 'root',
+    // password: 'OwhHbxDtBwsDB9VlClLwfkzw9MTBr70m',
+    // database: 'avdeasis',
+    // port: 4300,
+
     TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'C:/DexDev/sqlite/data/testdb', // Path to H2 database
-      synchronize: true, // Automatically sync schema to database
+      driver: createConnection,
+      type: 'mysql', // Use MySQL as the database type
+      host: 'jcqlf1.stackhero-network.com', // MySQL server host
+      port: 4300, // MySQL server port
+      username: 'root', // MySQL username
+      password: 'OwhHbxDtBwsDB9VlClLwfkzw9MTBr70m', // MySQL password
+      database: 'cemetery_db', // MySQL database name
+      synchronize: false, // Automatically sync schema to database (set to false in production)
       logging: true, // Enable logging for troubleshooting
       entities: [AuthSession], // Register the AuthSession entity
+      // extra: {
+      //   waitForConnections: true,
+      //   connectionLimit: 10,
+      //   queueLimit: 0,
+      //   ssl: false,
+      //   // authPlugins: {
+      //   //   mysql_native_password: nativePassword,
+      //   // },
+      // },
     }),
 
     TypeOrmModule.forFeature([AuthSession]),

@@ -23,7 +23,7 @@ import { HttpLoggingInterceptor } from './config/logger/http-logging.interceptor
 import { PrincipalUserService } from './config/security/principal-user.service';
 import { ActivityService } from './service/activity.service';
 import { AdminInsertService } from './service/admin-insert.service';
-
+import { createConnection } from 'mysql2';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -45,10 +45,23 @@ import { AdminInsertService } from './service/admin-insert.service';
     //     synchronize: true,
     //   }),
     // }),
+    // TypeOrmModule.forRoot({
+    //   type: 'sqlite',
+    //   database: 'C:/DexDev/sqlite/data/testdb', // Path to H2 database
+    //   synchronize: true, // Automatically sync schema to database
+    //   logging: true, // Enable logging for troubleshooting
+    //   entities: [User, Permission, Deceased, Payment, ActyLog], // Register the AuthSession entity
+    // }),
+
     TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'C:/DexDev/sqlite/data/testdb', // Path to H2 database
-      synchronize: true, // Automatically sync schema to database
+      driver: createConnection,
+      type: 'mysql', // Use MySQL as the database type
+      host: 'jcqlf1.stackhero-network.com', // MySQL server host
+      port: 4300, // MySQL server port (default is 3306)
+      username: 'root', // MySQL username
+      password: 'OwhHbxDtBwsDB9VlClLwfkzw9MTBr70m', // MySQL password
+      database: 'cemetery_db', // MySQL database name
+      synchronize: false, // Automatically sync schema to database
       logging: true, // Enable logging for troubleshooting
       entities: [User, Permission, Deceased, Payment, ActyLog], // Register the AuthSession entity
     }),

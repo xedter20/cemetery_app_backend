@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('CMN_TX_PAYMENT')
+@Entity('cmn_tx_payment')
 export class Payment {
   @PrimaryGeneratedColumn()
   SEQ_NO: number;
@@ -32,21 +32,31 @@ export class Payment {
   @Column({ name: 'NEXT_PAYMENT_DATE' })
   nextPaymentDate: Date;
 
-  @Column({ name: 'REASON', nullable: true })  
+  @Column({ name: 'REASON', nullable: true })
   reason: string;
 
-  @Column({ name: 'STATUS' })  
+  @Column({ name: 'STATUS' })
   status: number;
 
   @Column({ name: 'ADDED_BY', nullable: true })
   addedBy: string;
 
-  @Column({ name: 'ADDED_DATE', type: 'text', default: () => `(datetime('now', 'localtime'))`,  nullable: true })
+  @Column({
+    name: 'ADDED_DATE',
+    type: 'text',
+    default: () => `(datetime('now', 'localtime'))`,
+    nullable: true,
+  })
   addedDate: string;
 
   @Column({ name: 'MODIFIED_BY', nullable: true })
   modifiedBy: string;
 
-  @Column({ name: 'MODIFIED_DATE', type: 'text', default: () => `(datetime('now', 'localtime'))`,  nullable: true })
+  @Column({
+    name: 'MODIFIED_DATE',
+    type: 'text',
+    default: () => `(datetime('now', 'localtime'))`,
+    nullable: true,
+  })
   modifiedDate: string;
 }

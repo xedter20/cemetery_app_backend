@@ -12,10 +12,14 @@
     "install:cemetery-service": "npm install --prefix cemetery-service",
     "build:auth-service": "npm run build --prefix auth-service",
     "build:cemetery-service": "npm run build --prefix cemetery-service",
-    "start": "npm run start:debug --prefix auth-service && npm run start:debug --prefix cemetery-service",
+    "start": "npm run start:debug --prefix auth-service;npm run start:debug --prefix cemetery-service",
     "start:debug": "npx nest start --debug"
   },
   "devDependencies": {
     "concurrently": "^7.6.0"
+  },
+  "dependencies": {
+    "mysql": "^2.18.1",
+    "mysql2": "^3.11.5"
   }
 }
