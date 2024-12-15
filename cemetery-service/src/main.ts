@@ -88,7 +88,7 @@ async function bootstrap() {
 
     console.log({ fullname });
     const query = `
-    SELECT * FROM CMN_TX_DECEASED
+    SELECT * FROM cmn_tx_deceased
     WHERE LOWER(TRIM(COALESCE(FNAME, ''))) || ' ' || 
           LOWER(TRIM(COALESCE(MNAME, ''))) || ' ' || 
           LOWER(TRIM(COALESCE(LNAME, ''))) LIKE LOWER(?) 
@@ -149,7 +149,7 @@ async function bootstrap() {
       let labelName = '';
 
       const query = `
-      INSERT INTO "CMN_TX_DECEASED" 
+      INSERT INTO "cmn_tx_deceased" 
         (
       
         "DECEASED_ID",
@@ -483,7 +483,7 @@ async function bootstrap() {
 
   app.post('/api/deceased/list', async (req, res) => {
     try {
-      const query = 'SELECT * FROM CMN_TX_DECEASED';
+      const query = 'SELECT * FROM cmn_tx_deceased';
       const rows = await queryAsync(query, []);
       res.json({ success: true, data: rows });
     } catch (error) {
