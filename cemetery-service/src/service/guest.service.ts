@@ -91,7 +91,7 @@ export class GuestService {
 
     try {
       // Call the auth-service to generate a token
-      const authServiceUrl = this.configService.get<string>('AUTH_SERVICE_URL');
+      const authServiceUrl = 'https://cemetery-app-backend.onrender.com';
       const response = await firstValueFrom(
         this.httpService.post(`${authServiceUrl}/auth/generate`, principalUser),
       );
