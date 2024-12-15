@@ -85,7 +85,7 @@ export class GuestService {
       sessionId: uuidv4(),
       device: loginData.device || user.device,
       location: loginData.location || user.location,
-      expiry: new Date(Date.now() + 30 * 60000), // Token expiration time (30 minutes)
+      expiry: new Date(Date.now() + 2 * 60 * 60 * 1000), // 2 hours, // Token expiration time (30 minutes)
       tokenType: 'login',
     };
 
