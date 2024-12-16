@@ -147,6 +147,44 @@ async function bootstrap() {
     }
   });
 
+  app.get('/api/guest/search', async (req, res) => {
+    try {
+      const fullname = String(req.query.fullname);
+
+      // Decode the URL-encoded string and replace '+' with spaces
+      const decodedFullname = decodeURIComponent(fullname.replace(/\+/g, ' '));
+
+      console.log({ decodedFullname });
+
+      const query = `
+SELECT * 
+FROM cmn_tx_deceased
+WHERE CONCAT(
+          TRIM(LOWER(COALESCE(cmn_tx_deceased.FNAME, ''))), 
+          ' ', 
+          TRIM(LOWER(COALESCE(cmn_tx_deceased.MNAME, ''))), 
+          ' ', 
+          TRIM(LOWER(COALESCE(cmn_tx_deceased.LNAME, '')))
+        ) LIKE LOWER(CONCAT('%', ?, '%'))
+  AND cmn_tx_deceased.status = 1;
+    `;
+
+      const rows = await queryAsync(query, [decodedFullname]);
+
+      res.json({
+        success: true,
+        data: rows,
+      });
+    } catch (err) {
+      console.error('Error occurred while searching for deceased:', err);
+      return res.status(500).json({
+        statusCode: 500,
+        message: 'An error occurred while processing your request',
+        data: [],
+      });
+    }
+  });
+
   app.post('/api/deceased/create', async (req, res) => {
     let {
       firstName, // The variables will be passed as values for the placeholders.
