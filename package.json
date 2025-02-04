@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "mysql": "^2.18.1",
-    "mysql2": "^3.11.5"
+    "mysql2": "^3.11.5",
+    "nodemailer": "^6.10.0"
   }
 }

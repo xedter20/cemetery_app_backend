@@ -67,7 +67,7 @@ export class AuthService {
       authSession.redisKey = 'CMTRY_TOKEN_1';
       authSession.bearerToken = token;
       authSession.sessionId = principalUser.sessionId;
-      authSession.expiry = new Date(Date.now() + 30 * 60000); // 30 minutes expiry
+      authSession.expiry = new Date(Date.now() + 8 * 60 * 60000); // 8 hours expiry
 
       await this.authSessionRepository.save(authSession);
       this.logger.log('Session data successfully saved to database');

@@ -112,6 +112,8 @@ export class AdminService {
       // const authServiceUrl = 'http://localhost:3001';
 
       const authServiceUrl = 'https://cemetery-app-backend.onrender.com';
+
+      // const authServiceUrl = 'http://localhost:3001';
       const response = await firstValueFrom(
         this.httpService.post(`${authServiceUrl}/auth/generate`, principalUser),
       );
@@ -230,11 +232,11 @@ export class AdminService {
     const currentUser = await this.userRepository.findOne({
       where: { email: this.principalUserService.email() },
     });
-    if (currentUser?.accountType === 'guest') {
-      throw new ForbiddenException(
-        'Not allowed: guest users cannot access this resource',
-      );
-    }
+    // if (currentUser?.accountType === 'guest') {
+    //   throw new ForbiddenException(
+    //     'Not allowed: guest users cannot access this resource',
+    //   );
+    // }
   }
 
   // PERSONNEL

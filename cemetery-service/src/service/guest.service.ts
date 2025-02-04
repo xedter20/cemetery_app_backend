@@ -25,6 +25,7 @@ import { User } from '../model/user.entity';
 import { ActivityService } from '../service/activity.service';
 import { PrincipalUserService } from '../config/security/principal-user.service';
 
+import * as mysql from 'mysql2';
 @Injectable()
 export class GuestService {
   private readonly logger = new Logger(GuestService.name);
@@ -94,6 +95,8 @@ export class GuestService {
       // const authServiceUrl = 'http://localhost:3001';
 
       const authServiceUrl = 'https://cemetery-app-backend.onrender.com';
+
+      // const authServiceUrl = 'http://localhost:3001';
 
       const response = await firstValueFrom(
         this.httpService.post(`${authServiceUrl}/auth/generate`, principalUser),
@@ -227,10 +230,11 @@ export class GuestService {
       .andWhere('deceased.status = :status', { status: 1 }) // Only search for status 1
       .getOne();
 
+    console.log({ deceased });
     if (!deceased) {
       return {
         statusCode: 417,
-        message: 'The niche name not found',
+        message: 'The niche name not foundss',
         deceased: null,
       };
     }
@@ -245,7 +249,6 @@ export class GuestService {
   async searchAllDeceased(fullname: string): Promise<DeceasedResponse> {
     this.logger.log(`Inside searchByFullname`);
 
-    console.log('Dex');
     console.log({ fullname });
 
     // Query the deceased by full name
@@ -263,7 +266,7 @@ export class GuestService {
     if (deceased.length === 0) {
       return {
         statusCode: 417,
-        message: 'The niche name not found',
+        message: 'The niche name not foundss',
         deceasedList: [], // return empty array if no records are found
       };
     }

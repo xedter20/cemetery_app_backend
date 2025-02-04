@@ -27,6 +27,16 @@ import { PrincipalUserService } from './config/security/principal-user.service';
 import * as mysql from 'mysql2'; // This is the proper way to import mysql2 in modern JavaScript (ES6+)
 import * as cron from 'node-cron';
 import * as moment from 'moment';
+import * as nodemailer from 'nodemailer';
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'dextermiranda441@gmail.com', // Replace with your email
+    pass: 'oczk mljj symm bjgc', // Replace with your email password
+  },
+});
+
 dotenv.config();
 
 async function bootstrap() {
@@ -127,7 +137,7 @@ async function bootstrap() {
       const query = `
     
       SELECT * FROM cmn_tx_payment WHERE DECEASED_ID = '${DECEASED_ID}'
-       ORDER BY NEXT_PAYMENT_DATE DESC;
+      ORDER BY SEQ_NO ASC;
       `;
 
       const rows = await queryAsync(query, [DECEASED_ID]);
@@ -318,6 +328,105 @@ WHERE CONCAT(
       });
     }
   });
+
+  app.put('/api/deceased/update/:id', async (req, res) => {
+    const DECEASED_ID = req.params.id;
+    const {
+      firstName,
+      lastName,
+      middleName,
+      suffix,
+      address,
+      born,
+      died,
+      cemeteryLocation,
+      datePermit,
+      natureApp,
+      layerNiche,
+      layerAddress,
+      payeeLastName,
+      payeeFirstName,
+      payeeMiddleName,
+      payeeSuffix,
+      payeeContact,
+      payeeEmail,
+      payeeAddress,
+    } = req.body;
+
+    try {
+      const queryCheckIfExists = `
+            SELECT COUNT(*) AS count FROM cmn_tx_deceased WHERE DECEASED_ID = ?
+        `;
+
+      const resultCheck = await queryAsync(queryCheckIfExists, [DECEASED_ID]);
+
+      if (resultCheck[0].count === 0) {
+        return res
+          .status(404)
+          .json({ success: false, message: 'Deceased record not found' });
+      }
+
+      const query = `
+            UPDATE cmn_tx_deceased
+            SET 
+                LNAME = ?,
+                FNAME = ?,
+                MNAME = ?,
+                SUFFIX = ?,
+                ADDRESS = ?,
+                BORN = ?,
+                DIED = ?,
+                CMTRY_LOC = ?,
+                DATE_PERMIT = ?,
+                NATURE_APP = ?,
+                LAYER_NICHE = ?,
+                LAYER_ADDR = ?,
+                PAYEE_LNAME = ?,
+                PAYEE_FNAME = ?,
+                PAYEE_MNAME = ?,
+                PAYEE_SUFFIX = ?,
+                PAYEE_CONTACT = ?,
+                PAYEE_EMAIL = ?,
+                PAYEE_ADDRESS = ?,
+                MODIFIED_BY = ?,
+                MODIFIED_DATE = ?
+            WHERE DECEASED_ID = ?;
+        `;
+
+      await queryAsync(query, [
+        lastName,
+        firstName,
+        middleName,
+        suffix,
+        address,
+        born,
+        died,
+        cemeteryLocation,
+        datePermit,
+        natureApp,
+        layerNiche,
+        layerAddress,
+        payeeLastName,
+        payeeFirstName,
+        payeeMiddleName,
+        payeeSuffix,
+        payeeContact,
+        payeeEmail,
+        payeeAddress,
+        'system', // MODIFIED_BY
+        new Date().toISOString(), // MODIFIED_DATE
+        DECEASED_ID,
+      ]);
+
+      res.status(200).json({ message: 'Updated successfully' });
+    } catch (err) {
+      console.error('Error updating deceased:', err.message);
+      res
+        .status(500)
+        .json({ message: 'Failed to update deceased', error: err.message });
+    }
+  });
+
   app.post('/api/users/create', async (req, res) => {
     const { email, firstName, lastName, middleName, password, role } = req.body;
 
@@ -534,16 +643,15 @@ WHERE CONCAT(
       // Insert into the database
       const query = `
           INSERT INTO cmn_tx_payment (
-              DECEASED_ID, DECEASED_NAME, DATE_PAID, KIND_PAYMENT, PERMIT_NO, ORDER_NO,
+              DECEASED_ID, DECEASED_NAME, KIND_PAYMENT, PERMIT_NO, ORDER_NO,
               AMOUNT, NUM_YEARS_PAY, NEXT_PAYMENT_DATE, REASON, STATUS,
               ADDED_BY, MODIFIED_BY, MODIFIED_DATE , AMOUNT_PER_YEAR
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? );
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? );
       `;
 
       const result = await queryAsync(query, [
         DECEASED_ID, // DECEASED_ID (set to null if not provided)
         deceasedName, // DECEASED_NAME
-        DATE_PAID, // DATE_PAID (set to current date)
         'Regular Payment', // KIND_PAYMENT (example type, can be customized)
         PERMIT_NO, // PERMIT_NO
         ORDER_NO, // ORDER_NO
@@ -565,11 +673,96 @@ WHERE CONCAT(
     }
   });
 
+  app.get('/api/deceased/list', async (req, res) => {
+    try {
+      const query = `
+      SELECT * 
+      FROM cmn_tx_deceased
+    `;
+      const rows = await queryAsync(query, []);
+
+      res.json({
+        success: true,
+        data: rows,
+      });
+    } catch (err) {
+      console.error('Error occurred while searching for deceased:', err);
+      return res.status(500).json({
+        statusCode: 500,
+        message: 'An error occurred while processing your request',
+        data: [],
+      });
+    }
+  });
+
+  // update canvass maps
+  app.post('/api/update_canvass_map', async (req, res) => {
+    try {
+      let data = req.body;
+
+      let { CANVAS_MAP, deceasedId } = data;
+      const query = `
+      UPDATE cmn_tx_deceased 
+      SET CANVAS_MAP = ?
+
+      where DECEASED_ID  = ? 
+      
+      `;
+      const rows = await queryAsync(query, [CANVAS_MAP, deceasedId]);
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to update' });
+    }
+  });
+
   // Get all payments
   app.post('/api/payments/all', async (req, res) => {
     try {
-      const query = 'SELECT * FROM cmn_tx_payment';
+      const query = `
+      
+          WITH MaxSeq AS (
+      SELECT DECEASED_ID, MAX(SEQ_NO) AS max_seq_no
+      FROM cmn_tx_payment
+      GROUP BY DECEASED_ID
+    )
+    SELECT p.*
+    FROM cmn_tx_payment p
+    JOIN MaxSeq m ON p.DECEASED_ID = m.DECEASED_ID AND p.SEQ_NO = m.max_seq_no
+    ORDER BY p.SEQ_NO DESC;
+
+      
+      `;
       const rows = await queryAsync(query, []);
+      res.json({ success: true, data: rows });
+    } catch (error) {
+      console.error('Error fetching payments:', error.message);
+      res.status(500).json({ error: 'Failed to fetch payments.' });
+    }
+  });
+
+  app.get('/api/payments_report', async (req, res) => {
+    try {
+      const { year, period } = req.query;
+
+      let sql = `SELECT DATE_PAID, DECEASED_NAME, ORDER_NO, KIND_PAYMENT, AMOUNT FROM cmn_tx_payment WHERE 1=1`;
+
+      // Apply Year filter
+      if (year) {
+        sql += ` AND YEAR(DATE_PAID) = ${mysql.escape(year)}`;
+      }
+
+      // Apply Period filter
+      if (period) {
+        if (period === 'Annual') {
+          sql += ` AND DATE_PAID BETWEEN '${year}-01-01' AND '${year}-12-31'`;
+        } else if (period === 'Semi-Annual') {
+          sql += ` AND (MONTH(DATE_PAID) BETWEEN 1 AND 6 OR MONTH(DATE_PAID) BETWEEN 7 AND 12)`;
+        } else if (period === 'Quarterly') {
+          sql += ` AND QUARTER(DATE_PAID) IN (1, 2, 3, 4)`;
+        }
+      }
+
+      const rows = await queryAsync(sql, []);
       res.json({ success: true, data: rows });
     } catch (error) {
       console.error('Error fetching payments:', error.message);
@@ -588,11 +781,76 @@ WHERE CONCAT(
     }
   });
 
+  app.get('/api/fetchAllDuePayments', async (req, res) => {
+    try {
+      let query = `
+      SELECT * FROM cmn_tx_payment p LEFT JOIN cmn_tx_deceased d 
+      ON p.DECEASED_ID = d.DECEASED_ID
+       WHERE p.NEXT_PAYMENT_DATE <= CURDATE() + INTERVAL 11 MONTH AND p.NEXT_PAYMENT_DATE > CURDATE();
+    `;
+
+      const rows = await queryAsync(query, []);
+      res.json({ success: true, data: rows });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch payments.' });
+    }
+  });
+  app.post('/api/sendPaymentReminder', async (req, res) => {
+    const { email, message } = req.body;
+
+    try {
+      // Check if user exists
+
+      // Configure nodemailer
+
+      // Email options
+      const mailOptions = {
+        from: 'dextermiranda441@gmail.com',
+        to: email,
+        subject: 'Payment Reminder',
+        html: `
+        
+         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+      <div style="text-align: center;">
+        <h2 style="color: #333;">Payment Reminder</h2>
+       
+      </div>
+      
+      <div style="background-color: white; padding: 15px; border-radius: 5px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);">
+        <p style="font-size: 16px; color: #333;">${message}</p>
+      </div>
+
+      <p style="font-size: 14px; color: #777; margin-top: 20px;">If you have already made the payment, please disregard this message.</p>
+
+
+
+      <p style="font-size: 14px; color: #777; text-align: center; margin-top: 20px;">Thank you for your prompt attention to this matter.</p>
+    </div>
+        `,
+      };
+
+      // Send the email
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.error(err);
+          return res
+            .status(500)
+            .json({ success: false, message: 'Failed to send email' });
+        }
+        res.status(200).json({ success: true, message: 'Email sent' });
+      });
+    } catch (error) {
+      console.error('rror:', error);
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
+    }
+  });
   // nestApp.enableCors({
   //   // origin: [
   //   //   'http://168.138.204.248',
   //   //   'http://localhost:5173',
-  //   //   'http://localhost:3002',
+  //   //   'http://localhost:3001',
   //   // ], // Add more origins as needed
   //   // methods: 'GET,POST,PATCH',
   //   // allowedHeaders: 'Content-Type,Authorization',
