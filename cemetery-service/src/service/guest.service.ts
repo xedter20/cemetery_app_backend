@@ -92,9 +92,11 @@ export class GuestService {
 
     try {
       // Call the auth-service to generate a token
-      // const authServiceUrl = 'http://localhost:3001';
+      //const authServiceUrl = 'http://localhost:3001';
 
       const authServiceUrl = 'https://cemetery-app-backend.onrender.com';
+
+      console.log({ authServiceUrl });
 
       // const authServiceUrl = 'http://localhost:3001';
 

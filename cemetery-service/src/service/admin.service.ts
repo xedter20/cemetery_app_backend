@@ -1,6 +1,7 @@
 import * as moment from 'moment';
 import * as XLSX from 'xlsx';
 import { v4 as uuidv4 } from 'uuid';
+import * as bcrypt from 'bcrypt';
 import {
   Injectable,
   NotFoundException,
@@ -11,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like, In } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+// import * as bcrypt from 'bcrypt';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
@@ -109,9 +110,11 @@ export class AdminService {
 
     try {
       // Call the auth-service to generate a token
-      // const authServiceUrl = 'http://localhost:3001';
+      //  const authServiceUrl = 'http://localhost:3001';
 
       const authServiceUrl = 'https://cemetery-app-backend.onrender.com';
+
+      console.log({ authServiceUrl });
 
       // const authServiceUrl = 'http://localhost:3001';
       const response = await firstValueFrom(
@@ -278,6 +281,7 @@ export class AdminService {
         lastName: user.lastName,
         accountType: user.accountType,
         email: user.email,
+        password: user.password,
       })),
     };
   }

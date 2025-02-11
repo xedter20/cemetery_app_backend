@@ -28,12 +28,21 @@ import * as mysql from 'mysql2'; // This is the proper way to import mysql2 in m
 import * as cron from 'node-cron';
 import * as moment from 'moment';
 import * as nodemailer from 'nodemailer';
+import { Request, Response } from 'express';
+
+// const transporter = nodemailer.createTransport({
+//   service: 'gmail',
+//   auth: {
+//     user: 'dextermiranda441@gmail.com', // Replace with your email
+//     pass: 'oczk mljj symm bjgc', // Replace with your email password
+//   },
+// });
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'dextermiranda441@gmail.com', // Replace with your email
-    pass: 'oczk mljj symm bjgc', // Replace with your email password
+    user: 'buenavistatreasury.cemetery@gmail.com', // Replace with your email
+    pass: 'cdtz ginr phib zftp', // Replace with your email password
   },
 });
 
@@ -92,6 +101,87 @@ async function bootstrap() {
       throw new Error(`Query failed: ${error.message}`);
     }
   }
+
+  const logUserAction = async (
+    action: string,
+    details: string,
+    req: Request,
+  ) => {
+    const logId = uuidv4();
+    const ipAddress = req.ip || req.socket.remoteAddress;
+    const userAgent = req.headers['user-agent'];
+
+    // Get session info from request body or query params
+    const userId =
+      req.method === 'GET'
+        ? (req.query.session_userId as string)
+        : req.body.session_userId;
+
+    const userEmail =
+      req.method === 'GET'
+        ? (req.query.session_userEmail as string)
+        : req.body.session_userEmail;
+
+    const query = `
+      INSERT INTO cmn_tx_logs (
+        LOG_ID, USER_ID, USER_EMAIL, ACTION, DETAILS, 
+        IP_ADDRESS, USER_AGENT
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    try {
+      await queryAsync(query, [
+        logId,
+        userId || 'system',
+        userEmail || 'system',
+        action,
+        details,
+        ipAddress,
+        userAgent,
+      ]);
+    } catch (error) {
+      console.error('Error logging user action:', error);
+    }
+  };
+
+  // Update the logs endpoint to include user account type
+  app.get('/api/logs', async (req, res) => {
+    try {
+      const { startDate, endDate, userEmail, action } = req.query;
+
+      let query = `
+     SELECT 
+        l.*, 
+        u.ACCOUNT_TYPE AS USER_ROLE
+    FROM cmn_tx_logs l
+    LEFT JOIN cmn_dm_usr u 
+        ON l.USER_EMAIL = u.EMAIL COLLATE utf8mb4_0900_ai_ci
+
+       
+      `;
+
+      const params = [];
+
+      query += ` ORDER BY l.CREATED_AT DESC`;
+
+      console.log(query);
+      console.log(params);
+      const logs = await queryAsync(query, params);
+
+      res.json({
+        success: true,
+        data: logs,
+      });
+    } catch (error) {
+      console.error('Error fetching logs:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to fetch logs',
+        error: error.message,
+      });
+    }
+  });
+
   app.get('/custom', async (req, res) => {
     let fullname = 'yosh'; // This could be dynamic based on req.query or req.body
 
@@ -317,6 +407,13 @@ WHERE CONCAT(
         '', // MODIFIED_DATE (empty value)
       ]);
 
+      // Log the action
+      await logUserAction(
+        'DECEASED_CREATED',
+        `New deceased record created: ${firstName} ${lastName}`,
+        req,
+      );
+
       res.status(201).json({
         message: 'Created successfully',
       });
@@ -418,6 +515,13 @@ WHERE CONCAT(
         DECEASED_ID,
       ]);
 
+      // Add logging
+      await logUserAction(
+        'DECEASED_UPDATED',
+        `Deceased record updated: ${firstName} ${lastName}`,
+        req,
+      );
+
       res.status(200).json({ message: 'Updated successfully' });
     } catch (err) {
       console.error('Error updating deceased:', err.message);
@@ -437,6 +541,8 @@ WHERE CONCAT(
 
       const emailCheckQuery = `SELECT COUNT(*) AS count FROM cmn_dm_usr WHERE EMAIL = ?`;
       const resultCheck = await queryAsync(emailCheckQuery, [email]);
+
+      console.log({ emailCheckQuery });
 
       // Check the count from the query result
       if (resultCheck[0].count > 0) {
@@ -467,8 +573,12 @@ WHERE CONCAT(
 
       let accountType = role;
 
+      const formatDateForMySQL = (isoString: string) => {
+        return isoString.replace('T', ' ').split('.')[0]; // Convert to 'YYYY-MM-DD HH:MM:SS'
+      };
+
       if (accountType === 'guest') {
-        newPermission = permissionRepository.create({
+        newPermission = {
           email: email,
           role: 'role_user',
           accountType: 'guest',
@@ -497,12 +607,12 @@ WHERE CONCAT(
           status: 1, // Active status
           reason: null,
           addedBy: '',
-          addedDate: new Date().toISOString(),
+          addedDate: formatDateForMySQL(new Date().toISOString()),
           modifiedBy: '',
-          modifiedDate: new Date().toISOString(),
-        });
+          modifiedDate: formatDateForMySQL(new Date().toISOString()),
+        };
       } else if (accountType === 'treasurer') {
-        newPermission = permissionRepository.create({
+        newPermission = {
           email: email,
           role: 'role_user',
           accountType: 'treasurer',
@@ -530,14 +640,14 @@ WHERE CONCAT(
           status: 1,
           reason: null,
           addedBy: '',
-          addedDate: new Date().toISOString(),
+          addedDate: formatDateForMySQL(new Date().toISOString()),
           modifiedBy: '',
-          modifiedDate: new Date().toISOString(),
-        });
+          modifiedDate: formatDateForMySQL(new Date().toISOString()),
+        };
 
         console.log({ newPermission });
       } else if (accountType === 'admin') {
-        newPermission = permissionRepository.create({
+        newPermission = {
           email: email,
           role: 'role_admin',
           accountType: 'admin',
@@ -565,12 +675,12 @@ WHERE CONCAT(
           status: 1,
           reason: null,
           addedBy: '',
-          addedDate: new Date().toISOString(),
+          addedDate: formatDateForMySQL(new Date().toISOString()),
           modifiedBy: '',
-          modifiedDate: new Date().toISOString(),
-        });
+          modifiedDate: formatDateForMySQL(new Date().toISOString()),
+        };
       } else if (accountType === 'enterprise') {
-        newPermission = permissionRepository.create({
+        newPermission = {
           email: email,
           role: 'role_user',
           accountType: 'enterprise',
@@ -597,15 +707,44 @@ WHERE CONCAT(
           status: 1,
           reason: null,
           addedBy: '',
-          addedDate: new Date().toISOString(),
+          addedDate: formatDateForMySQL(new Date().toISOString()),
           modifiedBy: '',
-          modifiedDate: new Date().toISOString(),
-        });
+          modifiedDate: formatDateForMySQL(new Date().toISOString()),
+        };
       } else {
         throw new BadRequestException('Invalid account type');
       }
 
-      const savedPermission = await permissionRepository.save(newPermission);
+      let permissionData = {
+        id: uuidv4(),
+        ...newPermission,
+      };
+
+      const columns = Object.keys(permissionData)
+        .map((key) => key.replace(/([A-Z])/g, '_$1').toUpperCase()) // Convert camelCase to SNAKE_CASE
+        .join(', ');
+
+      const valuesArray = Object.values(permissionData);
+
+      // Generate placeholders (`?` for each value)
+      const placeholders = valuesArray.map(() => '?').join(', ');
+
+      // Create SQL Query
+      const queryInsertPermission = `
+    INSERT INTO permissionsss (${columns})
+    VALUES (${placeholders});
+`;
+
+      // Execute Query with parameterized values
+      await queryAsync(queryInsertPermission, valuesArray);
+
+      // Log the action
+      await logUserAction(
+        'USER_CREATED',
+        `New ${role} user created: ${firstName} ${lastName}`,
+        req,
+      );
+
       res.status(201).json({
         message: 'User created successfully',
       });
@@ -666,6 +805,13 @@ WHERE CONCAT(
         AMOUNT_PER_YEAR,
       ]);
 
+      // Log the action
+      await logUserAction(
+        'PAYMENT_CREATED',
+        `New payment recorded for deceased: ${DECEASED_NAME}`,
+        req,
+      );
+
       res.json({ success: true });
     } catch (error) {
       console.error('Error creating payment:', error.message);
@@ -680,6 +826,13 @@ WHERE CONCAT(
       FROM cmn_tx_deceased
     `;
       const rows = await queryAsync(query, []);
+
+      // Add logging
+      await logUserAction(
+        'DECEASED_LIST_ACCESSED',
+        'Deceased list was accessed',
+        req,
+      );
 
       res.json({
         success: true,
@@ -709,6 +862,14 @@ WHERE CONCAT(
       
       `;
       const rows = await queryAsync(query, [CANVAS_MAP, deceasedId]);
+
+      // Add logging
+      await logUserAction(
+        'CANVAS_MAP_UPDATED',
+        `Canvas map updated for deceased ID: ${deceasedId}`,
+        req,
+      );
+
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ error: 'Failed to update' });
@@ -733,6 +894,14 @@ WHERE CONCAT(
       
       `;
       const rows = await queryAsync(query, []);
+
+      // Add logging
+      await logUserAction(
+        'PAYMENTS_LIST_ACCESSED',
+        'All payments list was accessed',
+        req,
+      );
+
       res.json({ success: true, data: rows });
     } catch (error) {
       console.error('Error fetching payments:', error.message);
@@ -763,6 +932,14 @@ WHERE CONCAT(
       }
 
       const rows = await queryAsync(sql, []);
+
+      // Add logging
+      await logUserAction(
+        'PAYMENT_REPORT_GENERATED',
+        `Payment report generated for year: ${year}, period: ${period}`,
+        req,
+      );
+
       res.json({ success: true, data: rows });
     } catch (error) {
       console.error('Error fetching payments:', error.message);
@@ -782,19 +959,29 @@ WHERE CONCAT(
   });
 
   app.get('/api/fetchAllDuePayments', async (req, res) => {
-    try {
-      let query = `
-      SELECT * FROM cmn_tx_payment p LEFT JOIN cmn_tx_deceased d 
-      ON p.DECEASED_ID = d.DECEASED_ID
-       WHERE p.NEXT_PAYMENT_DATE <= CURDATE() + INTERVAL 11 MONTH AND p.NEXT_PAYMENT_DATE > CURDATE();
-    `;
+    const { month } = req.query; // Get the month from the query parameters
 
-      const rows = await queryAsync(query, []);
-      res.json({ success: true, data: rows });
+    try {
+      // Assuming you have a function to get payments based on the month
+      const query = `
+        SELECT * FROM cmn_tx_payment p 
+        LEFT JOIN cmn_tx_deceased d ON p.DECEASED_ID = d.DECEASED_ID
+        WHERE p.NEXT_PAYMENT_DATE <= CURDATE() + INTERVAL ? MONTH 
+        AND p.NEXT_PAYMENT_DATE > CURDATE();
+      `;
+
+      const rows = await queryAsync(query, [month]); // Use the month in the query
+
+      res.json({
+        success: true,
+        data: rows,
+      });
     } catch (error) {
+      console.error('Error fetching payments:', error.message);
       res.status(500).json({ error: 'Failed to fetch payments.' });
     }
   });
+
   app.post('/api/sendPaymentReminder', async (req, res) => {
     const { email, message } = req.body;
 
@@ -805,7 +992,7 @@ WHERE CONCAT(
 
       // Email options
       const mailOptions = {
-        from: 'dextermiranda441@gmail.com',
+        from: 'buenavistatreasury.cemetery@gmail.com',
         to: email,
         subject: 'Payment Reminder',
         html: `
@@ -830,13 +1017,21 @@ WHERE CONCAT(
       };
 
       // Send the email
-      transporter.sendMail(mailOptions, (err, info) => {
+      transporter.sendMail(mailOptions, async (err, info) => {
         if (err) {
           console.error(err);
           return res
             .status(500)
             .json({ success: false, message: 'Failed to send email' });
         }
+
+        // Add logging
+        await logUserAction(
+          'PAYMENT_REMINDER_SENT',
+          `Payment reminder sent to: ${email}`,
+          req,
+        );
+
         res.status(200).json({ success: true, message: 'Email sent' });
       });
     } catch (error) {
@@ -846,6 +1041,43 @@ WHERE CONCAT(
         .json({ success: false, message: 'Internal server error' });
     }
   });
+
+  app.put('/api/user/:id', async (req, res) => {
+    const userId = req.params.id;
+
+    console.log({ userId });
+
+    let { role, firstName, middleName, lastName, email } = req.body;
+
+    try {
+      const query = `
+             UPDATE cmn_dm_usr
+        SET ROLE = ?, 
+            FIRST_NAME = ?, 
+            LAST_NAME = ?, 
+            EMAIL = ?
+        WHERE ID = ?;
+            
+        `;
+
+      await queryAsync(query, [role, firstName, lastName, email, userId]);
+
+      // Add logging
+      await logUserAction(
+        'USER_UPDATED',
+        `User updated: ${firstName} ${lastName}`,
+        req,
+      );
+
+      res.status(200).json({ message: 'Updated successfully' });
+    } catch (err) {
+      console.error('Error updating deceased:', err.message);
+      res
+        .status(500)
+        .json({ message: 'Failed to update deceased', error: err.message });
+    }
+  });
+
   // nestApp.enableCors({
   //   // origin: [
   //   //   'http://168.138.204.248',
@@ -915,5 +1147,24 @@ WHERE CONCAT(
 
   console.log(`Application is running on: http://localhost:${port}`);
 }
+
+// Add this after other database table creations
+// const createLogsTableQuery = `
+//   CREATE TABLE IF NOT EXISTS cmn_tx_logs (
+//     LOG_ID VARCHAR(36) PRIMARY KEY,
+//     USER_ID VARCHAR(36),
+//     USER_EMAIL VARCHAR(255),
+//     ACTION VARCHAR(255),
+//     DETAILS TEXT,
+//     IP_ADDRESS VARCHAR(45),
+//     USER_AGENT TEXT,
+//     CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+//   )
+// `;
+
+// // Add this inside bootstrap function after pool creation
+// await queryAsync(createLogsTableQuery, []);
+
+// Add logging middleware function
 
 bootstrap();
